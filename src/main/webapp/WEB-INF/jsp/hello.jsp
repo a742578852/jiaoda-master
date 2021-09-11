@@ -15,6 +15,7 @@
     <script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.1.2/dist/echarts.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="/excel/sheetjs-master/xlsx.mini.js"></script>
     <title>串口数据</title>
 </head>
 <body>
@@ -30,7 +31,6 @@
                     <i class="layui-icon layui-icon-rss" style="font-size: 30px; color: green;"></i>
                     <span style="color: green">连接正常</span>
                 </span>
-
             </div>
 
             <div id="ser_break" style="padding: 30px;display: none" class="layui-row layui-col-space15">
@@ -49,7 +49,8 @@
                     <div style="padding: 10px">
                         <label class="layui-form-label">数据保存</label>
                         <div class="layui-input-block">
-                            <input type="text" name="data_name" required lay-verify="required" placeholder="请输入文件名"
+                            <input type="text" id="save_data" name="data_name" required lay-verify="required"
+                                   placeholder="请输入文件名"
                                    autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -57,27 +58,28 @@
                         <div>
                             <label class="layui-form-label">定时</label>
                             <div class="layui-input-block">
-                                <input type="number" name="data_time" placeholder="请输入时长,单位:秒" autocomplete="off"
+                                <input type="number" id="set_time" name="data_time" placeholder="请输入时长,单位:秒"
+                                       autocomplete="off"
                                        class="layui-input">
                             </div>
                         </div>
                         <div>
-                            <input type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF">
+                            <input id="time_check" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF">
                         </div>
                     </div>
 
                     <div style="padding: 10px;display: flex;justify-content: space-around">
-                        <button type="button" class="layui-btn">开始</button>
-                        <button type="button" class="layui-btn layui-btn-normal">暂停</button>
-                        <button type="button" class="layui-btn layui-btn-warm">结束</button>
+                        <button id="action_btn" type="button" class="layui-btn">开始</button>
+                        <button type="button" class="layui-btn layui-btn-normal layui-btn-disabled" id="stop_btn">暂停
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-warm layui-btn-disabled" id="end_btn">结束
+                        </button>
                     </div>
 
                     <div style="padding: 10px;margin-right: 20px">
                         <span>已保存数据长度:
-                            <span style="color: green">
-                             24
-                            </span>
-                            S
+                            <input type="number" id="data_number" disabled>
+
                         </span>
                     </div>
 
@@ -85,98 +87,26 @@
 
             </div>
             <!--数据显示页面-->
-            <div style="padding: 30px" class="layui-row layui-col-space15">
+            <div style="padding: 10px" class="layui-row layui-col-space15">
                 <div style="padding: 10px;">
 
-                    <select id="select" name="city" lay-verify="" style="height: 30px">
-                        <option value="">请选择要查看的传感器或通道</option>
-                        <option value="010">加速度计</option>
-                        <option value="021">陀螺仪</option>
-                        <option value="0571">磁力计</option>
-                        <option value="0571">光学传感器</option>
-                        <option value="0571">1-生物电势AFE</option>
-                        <option value="0571">2-生物电势AFE</option>
+                    <select id="data_sel" name="data_name" lay-verify="" style="height: 30px">
+                        <option value="01">加速度计</option>
+                        <option value="02">陀螺仪</option>
+                        <option value="03">磁力计</option>
+                        <option value="04">光学传感器</option>
+                        <option value="05">1-生物电势AFE</option>
+                        <option value="06">2-生物电势AFE</option>
                     </select>
+                </div>
+                <div>
+                    <button class="layui-btn layui-btn-danger" id="clear_btn">数据清除</button>
                 </div>
                 <!--图表-->
                 <div>
-                    <div id="main" style="width: 800px;height:400px;"></div>
+                    <!--加速度-->
+                    <div id="acc_ec" style="width: 900px;height:500px;margin-left:-100px;margin-top: 20px "></div>
 
-
-                    <!--实时数据-->
-                    <script type="text/javascript">
-                        // 1 单独一个
-                        var myChart = echarts.init(document.getElementById('main'));
-
-                        var option;
-
-                        option = {
-                            title: {
-                                text: '折线图堆叠'
-                            },
-                            tooltip: {
-                                trigger: 'axis'
-                            },
-                            legend: {
-                                data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '4%',
-                                bottom: '3%',
-                                containLabel: true
-                            },
-                            toolbox: {
-                                feature: {
-                                    saveAsImage: {}
-                                }
-                            },
-                            xAxis: {
-                                type: 'category',
-                                boundaryGap: false,
-                                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-                            },
-                            yAxis: {
-                                type: 'value'
-                            },
-                            series: [
-                                {
-                                    name: '邮件营销',
-                                    type: 'line',
-                                    stack: '总量',
-                                    data: [120, 132, 101, 134, 90, 230, 210]
-                                },
-                                {
-                                    name: '联盟广告',
-                                    type: 'line',
-                                    stack: '总量',
-                                    data: [220, 182, 191, 234, 290, 330, 310]
-                                },
-                                {
-                                    name: '视频广告',
-                                    type: 'line',
-                                    stack: '总量',
-                                    data: [150, 232, 201, 154, 190, 330, 410]
-                                },
-                                {
-                                    name: '直接访问',
-                                    type: 'line',
-                                    stack: '总量',
-                                    data: [320, 332, 301, 334, 390, 330, 320]
-                                },
-                                {
-                                    name: '搜索引擎',
-                                    type: 'line',
-                                    stack: '总量',
-                                    data: [820, 932, 901, 934, 1290, 1330, 1320]
-                                }
-                            ]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        myChart.setOption(option);
-
-
-                    </script>
                 </div>
 
 
@@ -325,6 +255,425 @@
     </div>
 
     <script type="text/javascript">
+        //获取当前选中的值
+        var selData = $('#data_sel').val()
+        $('#data_sel').click(function () {
+            selData = $('#data_sel').val()
+
+        })
+
+        //加速度数据集合
+        var acc_list = []
+        //陀螺仪数据集合
+        var gyr_list = []
+        //磁力计数据集合
+        var mag_list = []
+        //光学传感器数据集合
+        var opt_list = []
+        //afe1数据集合
+        var afe1_list = []
+        //afe2数据集合
+        var afe2_list = []
+        //要保存的加速度数据
+        var accSaveData = [];
+        //陀螺仪
+        var gyrSaveData = [];
+        //磁力计
+        var magSaveData = []
+        //光学传感器
+        var optSaveData = []
+        //afe1
+        var afe1SaveData = []
+        //afe2
+        var afe2SaveData = []
+
+        //设定的定时时间
+        var setTime;
+
+        var setTimeFlg = 1;
+
+        //开始时间
+        var startTime;
+        //结束时间
+        var endTime;
+        //暂停开始时间
+        var stopStartTime = [];
+        //暂停结束时间
+        var stopEndTime = []
+
+        var number_flg = 1;
+
+        //获取采集数量
+        function getDataNumber() {
+            getSaveData()
+            $('#data_number').val(accSaveData.length)
+
+            if (number_flg == 0) {
+                setTimeout(function () {
+                    getDataNumber()
+                }, 1000)
+            }
+
+        }
+
+
+        //json对象转二维数据
+        function je(data) {
+            var arr = []
+            for (var i in data) {
+                arr[i] = [];
+                for (var j in data[i]) {
+                    arr[i].push(data[i][j])
+                }
+            }
+            return arr
+
+        }
+
+        // 将一个sheet转成最终的excel文件的blob对象，然后利用URL.createObjectURL下载
+        function sheet2blob(sheet, sheetName) {
+            sheetName = sheetName || 'sheet1';
+            var workbook = {
+                SheetNames: [sheetName],
+                Sheets: {}
+            };
+            workbook.Sheets[sheetName] = sheet;
+            // 生成excel的配置项
+            var wopts = {
+                bookType: 'xlsx', // 要生成的文件类型
+                bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+                type: 'binary'
+            };
+            var wbout = XLSX.write(workbook, wopts);
+            var blob = new Blob([s2ab(wbout)], {type: "application/octet-stream"});
+
+            // 字符串转ArrayBuffer
+            function s2ab(s) {
+                var buf = new ArrayBuffer(s.length);
+                var view = new Uint8Array(buf);
+                for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            }
+
+            return blob;
+        }
+
+        //excel下载
+        function openDownloadDialog(url, saveName) {
+            if (typeof url == 'object' && url instanceof Blob) {
+                url = URL.createObjectURL(url); // 创建blob地址
+            }
+            var aLink = document.createElement('a');
+            aLink.href = url;
+            aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
+            var event;
+            if (window.MouseEvent) event = new MouseEvent('click');
+            else {
+                event = document.createEvent('MouseEvents');
+                event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            }
+            aLink.dispatchEvent(event);
+        }
+
+        //筛选要保存的数据
+        function getSaveData() {
+            for (var i = 0; i < acc_list.length; i++) {
+                if (acc_list[i].save_date >= startTime && acc_list[i].save_date <= endTime) {
+                    var f = 0;
+                    //扣除在暂停时间内的数据
+                    for (var j = 0; j < stopEndTime.length; j++) {
+                        if (acc_list[i].save_date >= stopStartTime[j] && acc_list[i].save_date <= stopEndTime[j]) {
+                            f = 1
+                        }
+                    }
+                    if (f == 0) {
+                        accSaveData.push(acc_list[i])
+                        gyrSaveData.push(gyr_list[i])
+                        magSaveData.push(mag_list[i])
+                        optSaveData.push(opt_list[i])
+                        afe1SaveData.push(afe1_list[i])
+                        afe2SaveData.push(afe2_list[i])
+                    }
+                }
+            }
+
+        }
+
+        //计数
+        function dataNumber() {
+            var data = []
+            for (var i = 0; i < acc_list.length; i++) {
+                if (acc_list[i].save_date >= startTime && acc_list[i].save_date <= new Date()) {
+                    var f = 0;
+                    //扣除在暂停时间内的数据
+                    for (var j = 0; j < stopEndTime.length; j++) {
+                        if (acc_list[i].save_date >= stopStartTime[j] && acc_list[i].save_date <= stopEndTime[j]) {
+                            f = 1
+                        }
+                    }
+                    if (f == 0) {
+                        data.push(acc_list[i])
+
+                    }
+                }
+            }
+            $("#data_number").val(data.length)
+            if (number_flg == 0) {
+                setTimeout(function () {
+                    dataNumber()
+                }, 1000)
+            }
+        }
+
+        //倒计时函数
+        function countDown() {
+            console.log("定时" + setTime)
+            setTime--
+            $("#set_time").val(setTime)
+            if (setTime > 0 && setTimeFlg == 1) {
+                setTimeout(function () {
+                    countDown()
+                }, 1000)
+            } else if (setTime > 0 && setTimeFlg == 0) {
+                return
+            } else {
+                endTime = new Date()
+                //保存数据
+                //筛选数据
+                getSaveData();
+                //保存
+                //加速度
+                accSaveData.unshift({'x轴': 'x轴', 'y轴': 'y轴', 'z轴': 'z轴', '时间': '采集时间', '日期': '日期'})
+                var acc_sheet = XLSX.utils.aoa_to_sheet(je(accSaveData))
+                openDownloadDialog(sheet2blob(acc_sheet), $('#save_data').val() + '(加速度).xlsx')
+                //陀螺仪
+                gyrSaveData.unshift({'x轴': 'x轴', 'y轴': 'y轴', 'z轴': 'z轴', '时间': '采集时间', '日期': '日期 '})
+                var gyr_sheet = XLSX.utils.aoa_to_sheet(je(gyrSaveData))
+                openDownloadDialog(sheet2blob(gyr_sheet), $('#save_data').val() + '(陀螺仪).xlsx')
+                //磁力计
+                magSaveData.unshift({'x轴': 'x轴', 'y轴': 'y轴', 'z轴': 'z轴', '时间': '采集时间', '日期': '日期 '})
+                var mag_sheet = XLSX.utils.aoa_to_sheet(je(magSaveData))
+                openDownloadDialog(sheet2blob(mag_sheet), $('#save_data').val() + '(磁力计).xlsx')
+                //光学传感器
+                optSaveData.unshift({'血压': '血压', '心率': '心率', '时间': '采集时间', '日期': '日期 '})
+                var opt_sheet = XLSX.utils.aoa_to_sheet(je(optSaveData))
+                openDownloadDialog(sheet2blob(opt_sheet), $('#save_data').val() + '(光学传感器).xlsx')
+                //afe1
+                afe1SaveData.unshift({
+                    '一通道': '一通道',
+                    '二通道': '二通道',
+                    '三通道': '三通道',
+                    '四通道': '四通道',
+                    '五通道': '五通道',
+                    '六通道': '六通道',
+                    '七通道': '七通道',
+                    '八通道': '八通道',
+                    '时间': '采集时间',
+                    '日期': '日期 '
+                })
+                var afe1_sheet = XLSX.utils.aoa_to_sheet(je(afe1SaveData))
+                openDownloadDialog(sheet2blob(afe1_sheet), $('#save_data').val() + '(AFE1).xlsx')
+                //afe2
+                afe2SaveData.unshift({
+                    '一通道': '一通道',
+                    '二通道': '二通道',
+                    '三通道': '三通道',
+                    '四通道': '四通道',
+                    '五通道': '五通道',
+                    '六通道': '六通道',
+                    '七通道': '七通道',
+                    '八通道': '八通道',
+                    '时间': '采集时间',
+                    '日期': '日期 '
+                })
+                var afe2_sheet = XLSX.utils.aoa_to_sheet(je(afe2SaveData))
+                openDownloadDialog(sheet2blob(afe2_sheet), $('#save_data').val() + '(AFE2).xlsx')
+
+                //清空
+                accSaveData = []
+                gyrSaveData = []
+                magSaveData = []
+                optSaveData = []
+                afe1SaveData = []
+                afe2SaveData = []
+                number_flg = 1
+
+                //恢复正常键位
+                //开始 数据清空 按钮放开
+                $('#action_btn').removeClass("layui-btn-disabled").attr("disabled", false)
+                $('#clear_btn').removeClass("layui-btn-disabled").attr("disabled", false)
+                //暂停结束按钮禁用
+                $('#stop_btn').addClass("layui-btn-disabled").attr("disabled", true)
+                $('#end_btn').addClass("layui-btn-disabled").attr("disabled", true)
+                setTimeFlg = 0
+                setTime = 0
+                number_flg = 1
+                return;
+            }
+
+
+        }
+
+        //数据保存开始
+        $("#action_btn").click(function () {
+            //判断文件名是否为空
+            var saveName = $('#save_data').val()
+            if (saveName.trim() == '') {
+                alert("请输入文件名")
+                return;
+            }
+            //设立开始时间
+            startTime = new Date();
+
+            number_flg = 0
+            dataNumber()
+            //暂停 结束按钮设为启用
+            $('#stop_btn').removeClass("layui-btn-disabled").attr("disabled", false);
+            $('#end_btn').removeClass("layui-btn-disabled").attr("disabled", false);
+            //开始按钮设为禁用
+            $('#action_btn').addClass("layui-btn-disabled").attr("disabled", true)
+            $('#clear_btn').addClass("layui-btn-disabled").attr("disabled", true)
+
+            //判断定时开关是否开启
+            var timeCheck = $('#time_check').get(0).checked
+            if (timeCheck) {
+                setTimeFlg = 1
+                //给定时器赋值
+                setTime = $('#set_time').val()
+                countDown()
+            } else {
+
+
+            }
+
+        })
+        //数据保存结束
+        $('#end_btn').click(function () {
+            //记录结束时间
+            endTime = new Date();
+
+            //保存数据
+            //筛选数据
+            getSaveData();
+            //保存
+            //加速度
+            accSaveData.unshift({'x轴': 'x轴', 'y轴': 'y轴', 'z轴': 'z轴', '时间': '采集时间', '日期': '日期'})
+            var acc_sheet = XLSX.utils.aoa_to_sheet(je(accSaveData))
+            openDownloadDialog(sheet2blob(acc_sheet), $('#save_data').val() + '(加速度).xlsx')
+            //陀螺仪
+            gyrSaveData.unshift({'x轴': 'x轴', 'y轴': 'y轴', 'z轴': 'z轴', '时间': '采集时间', '日期': '日期 '})
+            var gyr_sheet = XLSX.utils.aoa_to_sheet(je(gyrSaveData))
+            openDownloadDialog(sheet2blob(gyr_sheet), $('#save_data').val() + '(陀螺仪).xlsx')
+            //磁力计
+            magSaveData.unshift({'x轴': 'x轴', 'y轴': 'y轴', 'z轴': 'z轴', '时间': '采集时间', '日期': '日期 '})
+            var mag_sheet = XLSX.utils.aoa_to_sheet(je(magSaveData))
+            openDownloadDialog(sheet2blob(mag_sheet), $('#save_data').val() + '(磁力计).xlsx')
+            //光学传感器
+            optSaveData.unshift({'血压': '血压', '心率': '心率', '时间': '采集时间', '日期': '日期 '})
+            var opt_sheet = XLSX.utils.aoa_to_sheet(je(optSaveData))
+            openDownloadDialog(sheet2blob(opt_sheet), $('#save_data').val() + '(光学传感器).xlsx')
+            //afe1
+            afe1SaveData.unshift({
+                '一通道': '一通道',
+                '二通道': '二通道',
+                '三通道': '三通道',
+                '四通道': '四通道',
+                '五通道': '五通道',
+                '六通道': '六通道',
+                '七通道': '七通道',
+                '八通道': '八通道',
+                '时间': '采集时间',
+                '日期': '日期 '
+            })
+            var afe1_sheet = XLSX.utils.aoa_to_sheet(je(afe1SaveData))
+            openDownloadDialog(sheet2blob(afe1_sheet), $('#save_data').val() + '(AFE1).xlsx')
+            //afe2
+            afe2SaveData.unshift({
+                '一通道': '一通道',
+                '二通道': '二通道',
+                '三通道': '三通道',
+                '四通道': '四通道',
+                '五通道': '五通道',
+                '六通道': '六通道',
+                '七通道': '七通道',
+                '八通道': '八通道',
+                '时间': '采集时间',
+                '日期': '日期 '
+            })
+            var afe2_sheet = XLSX.utils.aoa_to_sheet(je(afe2SaveData))
+            openDownloadDialog(sheet2blob(afe2_sheet), $('#save_data').val() + '(AFE2).xlsx')
+
+            //清空
+            accSaveData = []
+            gyrSaveData = []
+            magSaveData = []
+            optSaveData = []
+            afe1SaveData = []
+            afe2SaveData = []
+            number_flg = 1
+
+
+            var btnName = document.getElementById("stop_btn").innerHTML
+            if (btnName.trim() == '继续') {
+                endTime = stopStartTime[stopStartTime.length - 1]
+            }
+            //开始 数据清空 按钮放开
+            $('#action_btn').removeClass("layui-btn-disabled").attr("disabled", false)
+            $('#clear_btn').removeClass("layui-btn-disabled").attr("disabled", false)
+            //暂停结束按钮禁用
+            $('#stop_btn').addClass("layui-btn-disabled").attr("disabled", true)
+            $('#end_btn').addClass("layui-btn-disabled").attr("disabled", true)
+            setTimeFlg = 0
+            setTime = 0
+            number_flg = 1
+
+
+        })
+
+        //数据保存暂停
+        $('#stop_btn').click(function () {
+            var btnName = document.getElementById("stop_btn").innerHTML
+            if (btnName.trim() == '暂停') {
+                setTimeFlg = 0
+                document.getElementById("stop_btn").innerHTML = '继续'
+                stopStartTime.push(new Date())
+            } else {
+                document.getElementById("stop_btn").innerHTML = '暂停'
+                stopEndTime.push(new Date())
+                setTimeFlg = 1
+                var timeCheck = $('#time_check').get(0).checked
+                if (timeCheck) {
+                    countDown()
+                }
+
+            }
+
+        })
+
+
+        //清除数据
+        $('#clear_btn').click(function () {
+            acc_list = []
+            gyr_list = []
+            mag_list = []
+            opt_list = []
+            afe1_list = []
+            afe2_list = []
+        })
+
+        function getCurrentTime() {
+
+            let date = new Date()
+            let M = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
+            let D = date.getDate() < 10 ? ('0' + date.getDate()) : date.getDate()
+            let hours = date.getHours()
+            let minutes = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
+            let seconds = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds()
+            date = M + '-' + D + ' ' + hours + ':' + minutes + ':' + seconds
+            return date
+
+        }
+
         function hex2int(hex) {
             var len = hex.length, a = new Array(len), code;
             for (var i = 0; i < len; i++) {
@@ -355,6 +704,7 @@
 
         //连接发生错误的回调方法
         websocket.onerror = function () {
+
             //连接状态显示
             setMessageInnerHTML("error");
         };
@@ -369,26 +719,451 @@
             if (event.data == 400 || event.data == 300) {
                 document.getElementById("ser_connect").style.display = "none";//显示
                 document.getElementById("ser_break").style.display = "";//显示
+
             } else {
+
                 //数据解析
                 var data = event.data
                 //加速度
                 var accDatax = hex2int(event.data.substring(4, 8))
                 var accDatay = hex2int(event.data.substring(8, 12))
                 var accDataz = hex2int(event.data.substring(12, 16))
-                var acc_data = {"accDatax": accDatax, "accDatay": accDatay, "accDataz": accDataz}
-                localStorage.setItem("acc_data", acc_data)
+                console.log("x轴" + accDatax + "  y轴" + accDatay + "  z轴" + accDataz)
+                var acc_data = {
+                    "accDatax": accDatax,
+                    "accDatay": accDatay,
+                    "accDataz": accDataz,
+                    "date": getCurrentTime(),
+                    "save_date": new Date()
+                }
+
                 //陀螺仪
-                var gyrDatax = hex2int(event.data.substring(16,20))
-                var gyrDatay = hex2int(event.data.substring(20,24))
-                var gyrDataz = hex2int(event.data.substring(24,28))
-                var gyr_data = {"gyrDatax":gyrDatax,"gyrDatay":gyrDatay,"gyrDataz":gyrDataz}
-                localStorage.setItem("gyr_data",gyr_data)
+                var gyrDatax = hex2int(event.data.substring(16, 20))
+                var gyrDatay = hex2int(event.data.substring(20, 24))
+                var gyrDataz = hex2int(event.data.substring(24, 28))
+                var gyr_data = {
+                    "gyrDatax": gyrDatax,
+                    "gyrDatay": gyrDatay,
+                    "gyrDataz": gyrDataz,
+                    "date": getCurrentTime(),
+                    "save_date": new Date()
+                }
+
                 //磁力计
+                var magDatax = hex2int(event.data.substring(28, 32))
+                var magDatay = hex2int(event.data.substring(32, 36))
+                var magDataz = hex2int(event.data.substring(36, 40))
+                var mag_data = {
+                    "magDatax": magDatax,
+                    "magDatay": magDatay,
+                    "magDataz": magDataz,
+                    "date": getCurrentTime(),
+                    "save_date": new Date()
+                }
+
+                //光学传感器
+                var optBlood = hex2int(event.data.substring(44, 48))
+                var optHeart = hex2int(event.data.substring(48, 52))
+                var opt_data = {
+                    "optBlood": optBlood,
+                    "optHeart": optHeart,
+                    "date": getCurrentTime(),
+                    "save_date": new Date()
+                }
+
+                //AFE传感器1
+                //通道1-通道8
+                var AFE1_one = hex2int(event.data.substring(58, 66))
+                var AFE1_two = hex2int(event.data.substring(66, 74))
+                var AFE1_three = hex2int(event.data.substring(74, 82))
+                var AFE1_four = hex2int(event.data.substring(82, 90))
+                var AFE1_five = hex2int(event.data.substring(96, 104))
+                var AFE1_six = hex2int(event.data.substring(104, 112))
+                var AFE1_seven = hex2int(event.data.substring(112, 120))
+                var AFE1_eight = hex2int(event.data.substring(120, 128))
+                var afe1_data = {
+                    "AFE1_one": AFE1_one,
+                    "AFE1_two": AFE1_two,
+                    "AFE1_three": AFE1_three,
+                    "AFE1_four": AFE1_four,
+                    "AFE1_five": AFE1_five,
+                    "AFE1_six": AFE1_six,
+                    "AFE1_seven": AFE1_seven,
+                    "AFE1_eight": AFE1_eight,
+                    "date": getCurrentTime(),
+                    "save_date": new Date()
+                }
+
+                //AFE传感器2
+                //通道1-通道8
+                var AFE2_one = hex2int(event.data.substring(134, 142))
+                var AFE2_two = hex2int(event.data.substring(142, 150))
+                var AFE2_three = hex2int(event.data.substring(150, 158))
+                var AFE2_four = hex2int(event.data.substring(158, 166))
+                var AFE2_five = hex2int(event.data.substring(172, 180))
+                var AFE2_six = hex2int(event.data.substring(180, 188))
+                var AFE2_seven = hex2int(event.data.substring(188, 196))
+                var AFE2_eight = hex2int(event.data.substring(196, 204))
+                var afe2_data = {
+                    "AFE2_one": AFE2_one,
+                    "AFE2_two": AFE2_two,
+                    "AFE2_three": AFE2_three,
+                    "AFE2_four": AFE2_four,
+                    "AFE2_five": AFE2_five,
+                    "AFE2_six": AFE2_six,
+                    "AFE2_seven": AFE2_seven,
+                    "AFE2_eight": AFE2_eight,
+                    "date": getCurrentTime(),
+                    "save_date": new Date()
+                }
+                //加速度数据
+                acc_list.push(acc_data)
+                //陀螺仪数据添加
+                gyr_list.push(gyr_data)
+                //磁力计数据添加
+                mag_list.push(mag_data)
+                //光学传感器数据添加
+                opt_list.push(opt_data)
+                //afe1数据添加
+                afe1_list.push(afe1_data)
+                //afe2数据添加
+                afe2_list.push(afe2_data)
+
+                //图表
+                //标题
+                var text;
+                //元素
+                var lenged;
+                //横坐标数据
+                var xAxis;
+                //纵坐标数据
+                var series = [];
+
+                //加速度
+                if (selData == '01') {
+                    var acc_x = []
+                    var acc_y = []
+                    var acc_z = []
+                    var acc_time = []
+
+                    text = '加速度'
+                    lenged = ['x轴', 'y轴', 'z轴']
+                    for (var i = 0; i < acc_list.length; i++) {
+                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                        acc_time.push(acc_list[i].date)
+                        acc_x.push(acc_list[i].accDatax)
+                        acc_y.push(acc_list[i].accDatay)
+                        acc_z.push(acc_list[i].accDataz)
+                    }
+                    xAxis = acc_time
+                    series = [
+                        {
+                            name: 'x轴',
+                            type: 'line',
+                            stack: '总量',
+                            data: acc_x
+                        },
+                        {
+                            name: 'y轴',
+                            type: 'line',
+                            stack: '总量',
+                            data: acc_y
+                        },
+                        {
+                            name: 'z轴',
+                            type: 'line',
+                            stack: '总量',
+                            data: acc_z
+                        }
+                    ]
+
+                } else if (selData == '02') {
+                    var gyr_x = []
+                    var gyr_y = []
+                    var gyr_z = []
+                    var gyr_time = []
+
+                    text = '陀螺仪'
+                    lenged = ['x轴', 'y轴', 'z轴']
+                    for (var i = 0; i < gyr_list.length; i++) {
+                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                        gyr_time.push(gyr_list[i].date)
+                        gyr_x.push(gyr_list[i].gyrDatax)
+                        gyr_y.push(gyr_list[i].gyrDatay)
+                        gyr_z.push(gyr_list[i].gyrDataz)
+                    }
+                    xAxis = gyr_time
+                    series = [
+                        {
+                            name: 'x轴',
+                            type: 'line',
+                            data: gyr_x
+                        },
+                        {
+                            name: 'y轴',
+                            type: 'line',
+                            data: gyr_y
+                        },
+                        {
+                            name: 'z轴',
+                            type: 'line',
+                            data: gyr_z
+                        }
+                    ]
+                    //磁力计
+                } else if (selData == '03') {
+
+                    var mag_x = []
+                    var mag_y = []
+                    var mag_z = []
+                    var mag_time = []
+
+                    text = '磁力计'
+                    lenged = ['x轴', 'y轴', 'z轴']
+                    for (var i = 0; i < mag_list.length; i++) {
+                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                        mag_time.push(mag_list[i].date)
+                        mag_x.push(mag_list[i].magDatax)
+                        mag_y.push(mag_list[i].magDatay)
+                        mag_z.push(mag_list[i].magDataz)
+                    }
+                    xAxis = mag_time
+                    series = [
+                        {
+                            name: 'x轴',
+                            type: 'line',
+                            data: mag_x
+                        },
+                        {
+                            name: 'y轴',
+                            type: 'line',
+                            data: mag_y
+                        },
+                        {
+                            name: 'z轴',
+                            type: 'line',
+                            data: mag_z
+                        }
+                    ]
+                    //光学传感器
+                } else if (selData == '04') {
+                    var blood = []
+                    var heart = []
+                    var opt_time = []
+
+                    text = '光学传感器'
+                    lenged = ['血压', '心率']
+                    for (var i = 0; i < opt_list.length; i++) {
+                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                        opt_time.push(opt_list[i].date)
+                        blood.push(opt_list[i].optBlood)
+                        heart.push(opt_list[i].optHeart)
+
+                    }
+                    xAxis = opt_time
+                    series = [
+                        {
+                            name: '血压',
+                            type: 'line',
+                            data: blood
+                        },
+                        {
+                            name: '心率',
+                            type: 'line',
+                            data: heart
+                        }
+                    ]
+
+                } else if (selData == '05') {
+                    var afe1_one = []
+                    var afe1_two = []
+                    var afe1_three = []
+                    var afe1_four = []
+                    var afe1_five = []
+                    var afe1_six = []
+                    var afe1_seven = []
+                    var afe1_eight = []
+                    var afe1_time = []
+
+                    text = '生物电势AFE1'
+                    lenged = ['一通道', '二通道', '三通道', '四通道', '五通道', '六通道', '七通道', '八通道']
+                    for (var i = 0; i < afe1_list.length; i++) {
+                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                        afe1_time.push(afe1_list[i].date)
+                        afe1_one.push(afe1_list[i].AFE1_one)
+                        afe1_two.push(afe1_list[i].AFE1_two)
+                        afe1_three.push(afe1_list[i].AFE1_three)
+                        afe1_four.push(afe1_list[i].AFE1_four)
+                        afe1_five.push(afe1_list[i].AFE1_five)
+                        afe1_six.push(afe1_list[i].AFE1_six)
+                        afe1_seven.push(afe1_list[i].AFE1_seven)
+                        afe1_eight.push(afe1_list[i].AFE1_eight)
+
+                    }
+                    xAxis = afe1_time
+                    series = [
+                        {
+                            name: '一通道',
+                            type: 'line',
+                            data: afe1_one
+                        },
+                        {
+                            name: '二通道',
+                            type: 'line',
+                            data: afe1_two
+                        },
+                        {
+                            name: '三通道',
+                            type: 'line',
+                            data: afe1_three
+                        },
+                        {
+                            name: '四通道',
+                            type: 'line',
+                            data: afe1_four
+                        },
+                        {
+                            name: '五通道',
+                            type: 'line',
+                            data: afe1_five
+                        },
+                        {
+                            name: '六通道',
+                            type: 'line',
+                            data: afe1_six
+                        },
+                        {
+                            name: '七通道',
+                            type: 'line',
+                            data: afe1_seven
+                        },
+                        {
+                            name: '八通道',
+                            type: 'line',
+                            data: afe1_eight
+                        },
+                    ]
 
 
+                } else if (selData == '06') {
+                    var afe2_one = []
+                    var afe2_two = []
+                    var afe2_three = []
+                    var afe2_four = []
+                    var afe2_five = []
+                    var afe2_six = []
+                    var afe2_seven = []
+                    var afe2_eight = []
+                    var afe2_time = []
 
-                //数据保存
+                    text = '生物电势AFE2'
+                    lenged = ['一通道', '二通道', '三通道', '四通道', '五通道', '六通道', '七通道', '八通道']
+                    for (var i = 0; i < afe2_list.length; i++) {
+                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                        afe2_time.push(afe2_list[i].date)
+                        afe2_one.push(afe2_list[i].AFE2_one)
+                        afe2_two.push(afe2_list[i].AFE2_two)
+                        afe2_three.push(afe2_list[i].AFE2_three)
+                        afe2_four.push(afe2_list[i].AFE2_four)
+                        afe2_five.push(afe2_list[i].AFE2_five)
+                        afe2_six.push(afe2_list[i].AFE2_six)
+                        afe2_seven.push(afe2_list[i].AFE2_seven)
+                        afe2_eight.push(afe2_list[i].AFE2_eight)
+
+                    }
+                    xAxis = afe2_time
+                    series = [
+                        {
+                            name: '一通道',
+                            type: 'line',
+                            data: afe2_one
+                        },
+                        {
+                            name: '二通道',
+                            type: 'line',
+                            data: afe2_two
+                        },
+                        {
+                            name: '三通道',
+                            type: 'line',
+                            data: afe2_three
+                        },
+                        {
+                            name: '四通道',
+                            type: 'line',
+                            data: afe2_four
+                        },
+                        {
+                            name: '五通道',
+                            type: 'line',
+                            data: afe2_five
+                        },
+                        {
+                            name: '六通道',
+                            type: 'line',
+                            data: afe2_six
+                        },
+                        {
+                            name: '七通道',
+                            type: 'line',
+                            data: afe2_seven
+                        },
+                        {
+                            name: '八通道',
+                            type: 'line',
+                            data: afe2_eight
+                        },
+                    ]
+                }
+
+
+                //渲染图表
+                //加速度图表
+                // 1 单独一个
+                var myChart = echarts.init(document.getElementById('acc_ec'));
+                var option;
+
+                option = {
+                    title: {
+                        text: text
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: lenged
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xAxis,
+                        axisLabel: {
+                            rotate: -30
+                        }
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: series
+                };
+
+                $('#data_sel').click(function () {
+                    myChart.clear()
+                })
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
             }
         }
 
@@ -397,12 +1172,6 @@
             setMessageInnerHTML("close");
         }
 
-
-        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
-        window.onbeforeunload = function () {
-            websocket.close();
-            //清除localStroage数据
-        }
 
         //将消息显示在网页上
         function setMessageInnerHTML(innerHTML) {
@@ -418,6 +1187,14 @@
         function send() {
             var message = document.getElementById('text').value;
             websocket.send(message);
+        }
+
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function () {
+            websocket.close();
+
+            //加个loading
+
         }
 
 
@@ -442,8 +1219,10 @@
         //生物2频率
         var bio2fre = 0;
 
+
         //数据初始化
         $(function () {// 初始化内容
+
 
             //获取页面右侧配置数据
             var setData = JSON.parse(localStorage.getItem("setData"))
@@ -602,20 +1381,23 @@
 
             //数据保存到浏览器缓存
             localStorage.setItem("setData", JSON.stringify(setData))
+
+            websocket.send(JSON.stringify(setData))
+
             //传到后台
-            $.ajax({
-                data: {"setData": setData},
-                type: "post",
-                dataType: "json",
-                url: "${pageContext.request.contextPath}/web/setUp",
-                success: function (data) {
+            <%--$.ajax({--%>
+            <%--    data: {"setData": setData},--%>
+            <%--    type: "post",--%>
+            <%--    dataType: "json",--%>
+            <%--    url: "${pageContext.request.contextPath}/web/setUp",--%>
+            <%--    success: function (data) {--%>
 
 
-                    if (data.code == 200) {
-                        alert("配置修改成功")
-                    }
-                }
-            })
+            <%--        if (data.code == 200) {--%>
+            <%--            alert("配置修改成功")--%>
+            <%--        }--%>
+            <%--    }--%>
+            <%--})--%>
 
 
         })
