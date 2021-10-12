@@ -25,7 +25,7 @@
     <div class="layui-row">
         <div class="layui-col-md9">
 
-            <div id="ser_connect" style="padding: 30px;" class="layui-row layui-col-space15">
+            <div id="ser_connect" style="padding: 30px;display: none" class="layui-row layui-col-space15">
                 <span style="font-weight: bold">串口连接状态:</span>
                 <span>
                     <i class="layui-icon layui-icon-rss" style="font-size: 30px; color: green;"></i>
@@ -33,7 +33,7 @@
                 </span>
             </div>
 
-            <div id="ser_break" style="padding: 30px;display: none" class="layui-row layui-col-space15">
+            <div id="ser_break" style="padding: 30px" class="layui-row layui-col-space15">
                 <span style="font-weight: bold">串口连接状态:</span>
                 <span>
                     <i class="layui-icon layui-icon-rss" style="font-size: 30px; color: red;"></i>
@@ -42,6 +42,14 @@
 
             </div>
 
+            <dv style="padding: 30px;">
+                <span>请选择串口:</span>
+                <select id="cklst" lay-verify="">
+                    <option value="">请选择串口</option>
+
+                </select>
+                <button id="con_btn" type="button" onclick="con()" class="layui-btn">连接</button>
+            </dv>
 
             <div style="padding: 30px" class="layui-row layui-col-space15">
                 <!--数据储存区-->
@@ -128,7 +136,7 @@
                                            style="">
                                 </div>
                                 <div id="acc_block" style="padding-left: 30px;padding-bottom: 30px;padding-top: 10px">
-                                    <span>采样频率(ms)</span>
+                                    <span>采样频率(hz)</span>
                                     <div style="padding-top: 10px;padding-right: 10px" id="slider_acceleration"></div>
                                 </div>
                                 <hr style="margin-left: 20px;margin-right: 20px;margin-top:0px;border: 1px">
@@ -142,7 +150,7 @@
                                            style="">
                                 </div>
                                 <div id="gyr_block" style="padding-left: 30px;padding-bottom: 30px;padding-top: 10px">
-                                    <span>采样频率(ms)</span>
+                                    <span>采样频率(hz)</span>
                                     <div style="padding-top: 10px;padding-right: 10px" id="slider_gyroscope"></div>
                                 </div>
                                 <hr style="margin-left: 20px;margin-right: 20px;margin-top:0px;border: 1px">
@@ -156,7 +164,7 @@
                                            style="">
                                 </div>
                                 <div id="mag_block" style="padding-left: 30px;padding-bottom: 30px;padding-top: 10px">
-                                    <span>采样频率(ms)</span>
+                                    <span>采样频率(hz)</span>
                                     <div style="padding-top: 10px;padding-right: 10px" id="slider_magnetometer"></div>
                                 </div>
                                 <hr style="margin-left: 20px;margin-right: 20px;margin-top:0px;border: 1px">
@@ -192,7 +200,7 @@
                                            style="">
                                 </div>
                                 <div id="opt_block" style="padding-left: 30px;padding-bottom: 30px;padding-top: 10px">
-                                    <span>采样频率(ms)</span>
+                                    <span>采样频率(hz)</span>
                                     <div style="padding-top: 10px;padding-right: 10px" id="slider_optical_sensor"></div>
                                 </div>
                                 <hr style="margin-left: 20px;margin-right: 20px;margin-top:0px;border: 1px">
@@ -213,7 +221,7 @@
                                 </div>
                                 <div id="biofre1_block"
                                      style="padding-left: 30px;padding-bottom: 30px;padding-top: 10px">
-                                    <span>采样频率(ms)</span>
+                                    <span>采样频率(hz)</span>
                                     <div style="padding-top: 10px;padding-right: 10px"
                                          id="slider_bioelectric_frequency_1"></div>
                                 </div>
@@ -236,7 +244,7 @@
                                 </div>
                                 <div id="biofre2_block"
                                      style="padding-left: 30px;padding-bottom: 30px;padding-top: 10px">
-                                    <span>采样频率(ms)</span>
+                                    <span>采样频率(hz)</span>
                                     <div style="padding-top: 10px;padding-right: 10px"
                                          id="slider_bioelectric_frequency_2"></div>
                                 </div>
@@ -302,6 +310,32 @@
         var stopEndTime = []
 
         var number_flg = 1;
+
+        var stop_number_flg = 0;
+
+        //开始连接
+        function con(){
+            //设置全局变量
+            var  data = $("#cklst").find("option:selected").text();
+
+            $.ajax({
+                type:"POST",
+                contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                url:"setCom",
+                data:{"comName":data},
+                success:function (res){
+                        //开始socket
+                        //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
+                        location.reload()
+                    }
+
+            })
+
+            //webSocket开始启动
+
+
+
+        }
 
         //获取采集数量
         function getDataNumber() {
@@ -455,9 +489,10 @@
                 var mag_sheet = XLSX.utils.aoa_to_sheet(je(magSaveData))
                 openDownloadDialog(sheet2blob(mag_sheet), $('#save_data').val() + '(磁力计).xlsx')
                 //光学传感器
-                optSaveData.unshift({'血压': '血压', '心率': '心率', '时间': '采集时间', '日期': '日期 '})
+                optSaveData.unshift({'红外': '红外', '红光': '红光','绿光':'绿光','蓝光':'蓝光','时间': '采集时间', '日期': '日期 '})
                 var opt_sheet = XLSX.utils.aoa_to_sheet(je(optSaveData))
                 openDownloadDialog(sheet2blob(opt_sheet), $('#save_data').val() + '(光学传感器).xlsx')
+
                 //afe1
                 afe1SaveData.unshift({
                     '一通道': '一通道',
@@ -569,7 +604,7 @@
             var mag_sheet = XLSX.utils.aoa_to_sheet(je(magSaveData))
             openDownloadDialog(sheet2blob(mag_sheet), $('#save_data').val() + '(磁力计).xlsx')
             //光学传感器
-            optSaveData.unshift({'血压': '血压', '心率': '心率', '时间': '采集时间', '日期': '日期 '})
+            optSaveData.unshift({'红外': '红外', '红光': '红光','绿光':'绿光','蓝光':'蓝光','时间': '采集时间', '日期': '日期 '})
             var opt_sheet = XLSX.utils.aoa_to_sheet(je(optSaveData))
             openDownloadDialog(sheet2blob(opt_sheet), $('#save_data').val() + '(光学传感器).xlsx')
             //afe1
@@ -634,10 +669,12 @@
         $('#stop_btn').click(function () {
             var btnName = document.getElementById("stop_btn").innerHTML
             if (btnName.trim() == '暂停') {
+                stop_number_flg = 1
                 setTimeFlg = 0
                 document.getElementById("stop_btn").innerHTML = '继续'
                 stopStartTime.push(new Date())
             } else {
+                stop_number_flg = 0
                 document.getElementById("stop_btn").innerHTML = '暂停'
                 stopEndTime.push(new Date())
                 setTimeFlg = 1
@@ -693,10 +730,97 @@
         }
 
 
+        function fuhaohex2int(i){
+            let two = parseInt(i, 16).toString(2);
+            let bitNum=i.length*4;
+            if (two.length < bitNum) {
+                while (two.length < bitNum) {
+                    two = "0" + two;
+                }
+            }
+
+            if (two.substring(0, 1) == "0") {
+                two = parseInt(two, 2);
+
+                return two;
+            } else {
+                let two_unsign = "";
+                two = parseInt(two, 2) - 1;
+                two = two.toString(2);
+                two_unsign = two.substring(1, bitNum);
+                two_unsign = two_unsign.replace(/0/g, "z");
+                two_unsign = two_unsign.replace(/1/g, "0");
+                two_unsign = two_unsign.replace(/z/g, "1");
+                two = parseInt(-two_unsign, 2);
+
+                return two;
+            }
+
+        }
+
+        function FillString(t, c, n, b) {
+            if ((t == "") || (c.length != 1) || (n <= t.length)) {
+                return t;
+            }
+            var l = t.length;
+            for (var i = 0; i < n - l; i++) {
+                if (b == true) {
+                    t = c + t;
+                }
+                else {
+                    t += c;
+                }
+            }
+            return t;
+        }
+
+        // 16 进制转浮点数
+        function HexToSingle(t) {
+            t = t.replace(/\s+/g, "");
+            if (t == "") {
+                return "";
+            }
+            if (t == "00000000") {
+                return "0";
+            }
+            if ((t.length > 8) || (isNaN(parseInt(t, 16)))) {
+                return "Error";
+            }
+            if (t.length < 8) {
+                t = FillString(t, "0", 8, true);
+            }
+            t = parseInt(t, 16).toString(2);
+            t = FillString(t, "0", 32, true);
+            var s = t.substring(0, 1);
+            var e = t.substring(1, 9);
+            var m = t.substring(9);
+            e = parseInt(e, 2) - 127;
+            m = "1" + m;
+            if (e >= 0) {
+                m = m.substr(0, e + 1) + "." + m.substring(e + 1)
+            } else {
+                m = "0." + FillString(m, "0", m.length - e - 1, true)
+            }
+            if (m.indexOf(".") == -1) {
+                m = m + ".0";
+            }
+            var a = m.split(".");
+            var mi = parseInt(a[0], 2);
+            var mf = 0;
+            for (var i = 0; i < a[1].length; i++) {
+                mf += parseFloat(a[1].charAt(i)) * Math.pow(2, -(i + 1));
+            }
+            m = parseInt(mi) + parseFloat(mf);
+            if (s == 1) {
+                m = 0 - m;
+            }
+            return m;
+        }
+
         var websocket = null
 
-        //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
         if ('WebSocket' in window) {
+            console.log("进入")
             websocket = new WebSocket("ws://localhost:8085/web/socket");
         } else {
             alert('Not support websocket')
@@ -717,117 +841,158 @@
         //接收到消息的回调方法
         websocket.onmessage = function (event) {
             if (event.data == 400 || event.data == 300) {
-                document.getElementById("ser_connect").style.display = "none";//显示
-                document.getElementById("ser_break").style.display = "";//显示
+
 
             } else {
-
+                document.getElementById("ser_connect").style.display = "";//显示
+                document.getElementById("ser_break").style.display = "none";//显示
                 //数据解析
                 var data = event.data
+                console.log(data)
                 //加速度
-                var accDatax = hex2int(event.data.substring(4, 8))
-                var accDatay = hex2int(event.data.substring(8, 12))
-                var accDataz = hex2int(event.data.substring(12, 16))
-                console.log("x轴" + accDatax + "  y轴" + accDatay + "  z轴" + accDataz)
-                var acc_data = {
-                    "accDatax": accDatax,
-                    "accDatay": accDatay,
-                    "accDataz": accDataz,
-                    "date": getCurrentTime(),
-                    "save_date": new Date()
+                var acc_data = {}
+                var gyr_data = {}
+                var mag_data ={}
+                if (event.data.substring(0,4) == 'aaaa'){
+                    var accDatax = fuhaohex2int(event.data.substring(4, 8))
+                    var accDatay = fuhaohex2int(event.data.substring(8, 12))
+                    var accDataz = fuhaohex2int(event.data.substring(12, 16))
+
+                    acc_data = {
+                        "accDatax": accDatax,
+                        "accDatay": accDatay,
+                        "accDataz": accDataz,
+                        "date": getCurrentTime(),
+                        "save_date": new Date()
+                    }
+
+
+                    //陀螺仪
+
+                    var gyrDatax = fuhaohex2int(event.data.substring(16, 20))
+                    var gyrDatay = fuhaohex2int(event.data.substring(20, 24))
+                    var gyrDataz = fuhaohex2int(event.data.substring(24, 28))
+                    gyr_data = {
+                        "gyrDatax": gyrDatax,
+                        "gyrDatay": gyrDatay,
+                        "gyrDataz": gyrDataz,
+                        "date": getCurrentTime(),
+                        "save_date": new Date()
+                    }
+
+                    //磁力计
+                    var magDatax = fuhaohex2int(event.data.substring(28, 32))
+                    var magDatay = fuhaohex2int(event.data.substring(32, 36))
+                    var magDataz = fuhaohex2int(event.data.substring(36, 40))
+                    mag_data = {
+                        "magDatax": magDatax,
+                        "magDatay": magDatay,
+                        "magDataz": magDataz,
+                        "date": getCurrentTime(),
+                        "save_date": new Date()
+                    }
                 }
 
-                //陀螺仪
-                var gyrDatax = hex2int(event.data.substring(16, 20))
-                var gyrDatay = hex2int(event.data.substring(20, 24))
-                var gyrDataz = hex2int(event.data.substring(24, 28))
-                var gyr_data = {
-                    "gyrDatax": gyrDatax,
-                    "gyrDatay": gyrDatay,
-                    "gyrDataz": gyrDataz,
-                    "date": getCurrentTime(),
-                    "save_date": new Date()
+                var opt_data = {}
+                if (event.data.substring(0,4) == 'bbbb'){
+                    //光学传感器
+                    var hw = hex2int(event.data.substring(4, 12))
+                    var h = hex2int(event.data.substring(12, 20))
+                    var lv = hex2int(event.data.substring(20,28))
+                    var lan = hex2int(event.data.substring(28,36))
+                    opt_data = {
+                        "hw": hw,
+                        "h": h,
+                        "lv":lv,
+                        "lan":lan,
+                        "date": getCurrentTime(),
+                        "save_date": new Date()
+                    }
                 }
 
-                //磁力计
-                var magDatax = hex2int(event.data.substring(28, 32))
-                var magDatay = hex2int(event.data.substring(32, 36))
-                var magDataz = hex2int(event.data.substring(36, 40))
-                var mag_data = {
-                    "magDatax": magDatax,
-                    "magDatay": magDatay,
-                    "magDataz": magDataz,
-                    "date": getCurrentTime(),
-                    "save_date": new Date()
+
+                var afe1_data = {}
+                if (event.data.substring(0,4) == 'cccc'){
+
+                    //AFE传感器1
+                    //通道1-通道8
+                    var AFE1_one = HexToSingle(event.data.substring(6, 14)).toString().substring(0,10)
+                    var AFE1_two = HexToSingle(event.data.substring(14, 22)).toString().substring(0,10)
+                    var AFE1_three = HexToSingle(event.data.substring(22, 30)).toString().substring(0,10)
+                    var AFE1_four = HexToSingle(event.data.substring(30, 38)).toString().substring(0,10)
+                    var AFE1_five = HexToSingle(event.data.substring(44, 52)).toString().substring(0,10)
+                    var AFE1_six = HexToSingle(event.data.substring(52, 60)).toString().substring(0,10)
+                    var AFE1_seven = HexToSingle(event.data.substring(60, 68)).toString().substring(0,10)
+                    var AFE1_eight = HexToSingle(event.data.substring(68, 76)).toString().substring(0,10)
+
+
+                    afe1_data = {
+                        "AFE1_one": AFE1_one,
+                        "AFE1_two": AFE1_two,
+                        "AFE1_three": AFE1_three,
+                        "AFE1_four": AFE1_four,
+                        "AFE1_five": AFE1_five,
+                        "AFE1_six": AFE1_six,
+                        "AFE1_seven": AFE1_seven,
+                        "AFE1_eight": AFE1_eight,
+                        "date": getCurrentTime(),
+                        "save_date": new Date()
+                    }
+
                 }
 
-                //光学传感器
-                var optBlood = hex2int(event.data.substring(44, 48))
-                var optHeart = hex2int(event.data.substring(48, 52))
-                var opt_data = {
-                    "optBlood": optBlood,
-                    "optHeart": optHeart,
-                    "date": getCurrentTime(),
-                    "save_date": new Date()
+                var afe2_data = {}
+                if (event.data.substring(0,4) == 'dddd'){
+                    //AFE传感器2
+                    //通道1-通道8
+                    var AFE2_one = HexToSingle(event.data.substring(6, 14)).toString().substring(0,10)
+                    var AFE2_two = HexToSingle(event.data.substring(14, 22)).toString().substring(0,10)
+                    var AFE2_three = HexToSingle(event.data.substring(22, 30)).toString().substring(0,10)
+                    var AFE2_four = HexToSingle(event.data.substring(30, 38)).toString().substring(0,10)
+                    var AFE2_five = HexToSingle(event.data.substring(44, 52)).toString().substring(0,10)
+                    var AFE2_six = HexToSingle(event.data.substring(52, 60)).toString().substring(0,10)
+                    var AFE2_seven = HexToSingle(event.data.substring(60, 68)).toString().substring(0,10)
+                    var AFE2_eight = HexToSingle(event.data.substring(68, 76)).toString().substring(0,10)
+                    afe2_data = {
+                        "AFE2_one": AFE2_one,
+                        "AFE2_two": AFE2_two,
+                        "AFE2_three": AFE2_three,
+                        "AFE2_four": AFE2_four,
+                        "AFE2_five": AFE2_five,
+                        "AFE2_six": AFE2_six,
+                        "AFE2_seven": AFE2_seven,
+                        "AFE2_eight": AFE2_eight,
+                        "date": getCurrentTime(),
+                        "save_date": new Date()
+                    }
                 }
 
-                //AFE传感器1
-                //通道1-通道8
-                var AFE1_one = hex2int(event.data.substring(58, 66))
-                var AFE1_two = hex2int(event.data.substring(66, 74))
-                var AFE1_three = hex2int(event.data.substring(74, 82))
-                var AFE1_four = hex2int(event.data.substring(82, 90))
-                var AFE1_five = hex2int(event.data.substring(96, 104))
-                var AFE1_six = hex2int(event.data.substring(104, 112))
-                var AFE1_seven = hex2int(event.data.substring(112, 120))
-                var AFE1_eight = hex2int(event.data.substring(120, 128))
-                var afe1_data = {
-                    "AFE1_one": AFE1_one,
-                    "AFE1_two": AFE1_two,
-                    "AFE1_three": AFE1_three,
-                    "AFE1_four": AFE1_four,
-                    "AFE1_five": AFE1_five,
-                    "AFE1_six": AFE1_six,
-                    "AFE1_seven": AFE1_seven,
-                    "AFE1_eight": AFE1_eight,
-                    "date": getCurrentTime(),
-                    "save_date": new Date()
+                //加速度数
+                if (JSON.stringify(acc_data) != '{}'){
+                    acc_list.push(acc_data)
                 }
-
-                //AFE传感器2
-                //通道1-通道8
-                var AFE2_one = hex2int(event.data.substring(134, 142))
-                var AFE2_two = hex2int(event.data.substring(142, 150))
-                var AFE2_three = hex2int(event.data.substring(150, 158))
-                var AFE2_four = hex2int(event.data.substring(158, 166))
-                var AFE2_five = hex2int(event.data.substring(172, 180))
-                var AFE2_six = hex2int(event.data.substring(180, 188))
-                var AFE2_seven = hex2int(event.data.substring(188, 196))
-                var AFE2_eight = hex2int(event.data.substring(196, 204))
-                var afe2_data = {
-                    "AFE2_one": AFE2_one,
-                    "AFE2_two": AFE2_two,
-                    "AFE2_three": AFE2_three,
-                    "AFE2_four": AFE2_four,
-                    "AFE2_five": AFE2_five,
-                    "AFE2_six": AFE2_six,
-                    "AFE2_seven": AFE2_seven,
-                    "AFE2_eight": AFE2_eight,
-                    "date": getCurrentTime(),
-                    "save_date": new Date()
-                }
-                //加速度数据
-                acc_list.push(acc_data)
                 //陀螺仪数据添加
-                gyr_list.push(gyr_data)
+                if (JSON.stringify(gyr_data) != '{}'){
+                    gyr_list.push(gyr_data)
+                }
                 //磁力计数据添加
-                mag_list.push(mag_data)
+                if (JSON.stringify(mag_data) != '{}'){
+                    mag_list.push(mag_data)
+                }
                 //光学传感器数据添加
-                opt_list.push(opt_data)
+                if (JSON.stringify(opt_data) != '{}'){
+                    console.log(opt_data)
+                    opt_list.push(opt_data)
+                }
                 //afe1数据添加
-                afe1_list.push(afe1_data)
+                if (JSON.stringify(afe1_data) != '{}'){
+                    afe1_list.push(afe1_data)
+                }
                 //afe2数据添加
-                afe2_list.push(afe2_data)
+                if (JSON.stringify(afe2_data) != '{}'){
+                    afe2_list.push(afe2_data)
+                }
+
 
                 //图表
                 //标题
@@ -947,30 +1112,44 @@
                     ]
                     //光学传感器
                 } else if (selData == '04') {
-                    var blood = []
-                    var heart = []
+                    var hw = []
+                    var h = []
+                    var lv = []
+                    var lan =[]
                     var opt_time = []
 
                     text = '光学传感器'
-                    lenged = ['血压', '心率']
+                    lenged = ['红外', '红光','绿光','蓝光']
                     for (var i = 0; i < opt_list.length; i++) {
                         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
                         opt_time.push(opt_list[i].date)
-                        blood.push(opt_list[i].optBlood)
-                        heart.push(opt_list[i].optHeart)
+                        hw.push(opt_list[i].hw)
+                        h.push(opt_list[i].h)
+                        lv.push(opt_list[i].lv)
+                        lan.push(opt_list[i].lan)
 
                     }
                     xAxis = opt_time
                     series = [
                         {
-                            name: '血压',
+                            name: '红外',
                             type: 'line',
-                            data: blood
+                            data: hw
                         },
                         {
-                            name: '心率',
+                            name: '红光',
                             type: 'line',
-                            data: heart
+                            data: h
+                        },
+                        {
+                            name: '绿光',
+                            type: 'line',
+                            data: lv
+                        },
+                        {
+                            name: '蓝光',
+                            type: 'line',
+                            data: lan
                         }
                     ]
 
@@ -1117,6 +1296,12 @@
                 }
 
 
+
+
+                console.log("标题:"+text)
+                console.log("元素"+lenged)
+                console.log(xAxis)
+                console.log("纵坐标:"+series)
                 //渲染图表
                 //加速度图表
                 // 1 单独一个
@@ -1153,7 +1338,8 @@
                         }
                     },
                     yAxis: {
-                        type: 'value'
+                        type: 'value',
+                        minInterval: 1
                     },
                     series: series
                 };
@@ -1222,6 +1408,23 @@
 
         //数据初始化
         $(function () {// 初始化内容
+            //获取com列表
+            $.ajax({
+                type:"POST",
+                contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                url:"getCom",
+                success:function (res){
+                    console.log(res)
+                    $("#cklst").empty();//首先清空select现在有的内容
+                    $("#cklst").append("<option selected='selected'  value=0>请选择串口</option>");
+                    for (var i = 0;i<res.length;i++){
+                        var item = res[i]
+                        $("#cklst").append("<option  value=" + item+ ">" + item + "</option>");
+
+                    }
+                }
+            })
+
 
 
             //获取页面右侧配置数据
