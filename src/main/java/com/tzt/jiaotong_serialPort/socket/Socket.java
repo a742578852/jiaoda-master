@@ -57,10 +57,11 @@ public class Socket {
             //没有串口
             sendMessage("300", session);
         } else {
+            if (!EumConfig.com.equals("COM")){
+                sendMessage("200", session);
+            }
             try {
-
                 serialPort = SerialPortUtil.openSerialPort(EumConfig.com, 115200);
-
                 //设置串口的listener
                 SerialPortUtil.setListenerToSerialPort(serialPort, event -> {
                     try {
@@ -151,7 +152,7 @@ public class Socket {
      * @param message 客户端发送过来的消息
      */
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(String message) throws InterruptedException {
         SetData setData = JSON.parseObject(message, SetData.class);
         //加速度
         if (setData.isAcc_input()) {
@@ -164,6 +165,7 @@ public class Socket {
         }else {
             SerialPortUtil.sendData(serialPort,hexStringToBytes("0101000000000D0A"));
         }
+        Thread.sleep(10);
         if (setData.isGre_input()) {
             String acc = updateData(8,Integer.toHexString(getMs(setData.getGyrfre()))+"");
             String sendByte = ("0102" + acc +"0D0A");
@@ -174,6 +176,7 @@ public class Socket {
         }else {
             SerialPortUtil.sendData(serialPort,hexStringToBytes("0102000000000D0A"));
         }
+        Thread.sleep(10);
         if (setData.isMag_input()) {
             String acc = updateData(8,Integer.toHexString(getMs(setData.getMagfre()))+"");
             String sendByte = ("0103" + acc +"0D0A");
@@ -184,6 +187,7 @@ public class Socket {
         }else {
             SerialPortUtil.sendData(serialPort,hexStringToBytes("0103000000000D0A"));
         }
+        Thread.sleep(10);
         if (setData.isOpt_input()) {
             //光学传感器频率
             String acc = updateData(8,Integer.toHexString(getMs(setData.getOptfre()))+"");
@@ -200,6 +204,7 @@ public class Socket {
                 rel = "0501020d0a";
             }
             SerialPortUtil.sendData(serialPort,hexStringToBytes(rel));
+            Thread.sleep(10);
             //红外
             String inf;
             if (setData.isInf_input()) {
@@ -208,6 +213,7 @@ public class Socket {
                 inf = "0502020d0a";
             }
             SerialPortUtil.sendData(serialPort, hexStringToBytes(inf));
+            Thread.sleep(10);
             //绿光
             String green;
             if (setData.isGreen_input()) {
@@ -216,6 +222,7 @@ public class Socket {
                 green = "0503020d0a";
             }
             SerialPortUtil.sendData(serialPort, hexStringToBytes(green));
+            Thread.sleep(10);
             //蓝光
             String blue;
             if (setData.isBlue_input()) {
@@ -229,11 +236,13 @@ public class Socket {
         } else {
             SerialPortUtil.sendData(serialPort, hexStringToBytes("02000000000D0A"));
         }
+        Thread.sleep(10);
         if (setData.isBio1_input()) {
             //频率
             String acc = updateData(8,Integer.toHexString(getMs(setData.getBio1fre()))+"");
             String sendByte = ("0301" + acc +"0D0A");
             SerialPortUtil.sendData(serialPort, hexStringToBytes(sendByte));
+            Thread.sleep(10);
             //通道
             String afe1PlByte = updateData(2,Integer.toHexString(setData.getBio1pass())+"");
             String sendByte1 = ("0401" + afe1PlByte + "0D0A");
@@ -243,11 +252,13 @@ public class Socket {
         }else {
             SerialPortUtil.sendData(serialPort, hexStringToBytes("0301000000000D0A"));
         }
+        Thread.sleep(10);
         if (setData.isBio2_input()) {
 //频率
             String acc = updateData(8,Integer.toHexString(getMs(setData.getBio2fre()))+"");
             String sendByte = ("0302" + acc +"0D0A");
             SerialPortUtil.sendData(serialPort, hexStringToBytes(sendByte));
+            Thread.sleep(10);
             //通道
             String afe1PlByte = updateData(2,Integer.toHexString(setData.getBio2pass())+"");
             String sendByte1 = ("0402" + afe1PlByte + "0D0A");

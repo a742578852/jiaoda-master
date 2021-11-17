@@ -106,6 +106,8 @@
                         <option value="05">1-生物电势AFE</option>
                         <option value="06">2-生物电势AFE</option>
                     </select>
+
+                    <button id="qh_btn" onclick="qh()" type="button" class="layui-btn">切换</button>
                 </div>
                 <div>
                     <button class="layui-btn layui-btn-danger" id="clear_btn">数据清除</button>
@@ -263,12 +265,9 @@
     </div>
 
     <script type="text/javascript">
+
         //获取当前选中的值
         var selData = $('#data_sel').val()
-        $('#data_sel').click(function () {
-            selData = $('#data_sel').val()
-
-        })
 
         //加速度数据集合
         var acc_list = []
@@ -328,7 +327,6 @@
                         //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
                         location.reload()
                     }
-
             })
 
             //webSocket开始启动
@@ -411,12 +409,22 @@
 
         //筛选要保存的数据
         function getSaveData() {
-            for (var i = 0; i < acc_list.length; i++) {
-                if (acc_list[i].save_date >= startTime && acc_list[i].save_date <= endTime) {
+            var length = []
+            if(acc_list.length != 0){
+                length = acc_list
+            }else if(opt_list.length != 0){
+                length = opt_list
+            }else if(afe1_list.length != 0){
+                length = afe1_list
+            }else {
+                length = afe2_list
+            }
+            for (var i = 0; i < length.length; i++) {
+                if (length[i].save_date >= startTime && length[i].save_date <= endTime) {
                     var f = 0;
                     //扣除在暂停时间内的数据
                     for (var j = 0; j < stopEndTime.length; j++) {
-                        if (acc_list[i].save_date >= stopStartTime[j] && acc_list[i].save_date <= stopEndTime[j]) {
+                        if (length[i].save_date >= stopStartTime[j] && length[i].save_date <= stopEndTime[j]) {
                             f = 1
                         }
                     }
@@ -435,23 +443,35 @@
 
         //计数
         function dataNumber() {
+            var length = []
+            if(acc_list.length != 0){
+                length = acc_list
+            }else if(opt_list.length != 0){
+                length = opt_list
+            }else if(afe1_list.length != 0){
+                length = afe1_list
+            }else {
+                length = afe2_list
+            }
+
             var data = []
-            for (var i = 0; i < acc_list.length; i++) {
-                if (acc_list[i].save_date >= startTime && acc_list[i].save_date <= new Date()) {
+            for (var i = 0; i < length.length; i++) {
+                if (length[i].save_date >= startTime && length[i].save_date <= new Date()) {
                     var f = 0;
                     //扣除在暂停时间内的数据
                     for (var j = 0; j < stopEndTime.length; j++) {
-                        if (acc_list[i].save_date >= stopStartTime[j] && acc_list[i].save_date <= stopEndTime[j]) {
+                        if (length[i].save_date >= stopStartTime[j] && length[i].save_date <= stopEndTime[j]) {
                             f = 1
                         }
                     }
                     if (f == 0) {
-                        data.push(acc_list[i])
+                        data.push(length[i])
 
                     }
                 }
             }
             $("#data_number").val(data.length)
+            console.log("数据长度是:"+data.length)
             if (number_flg == 0) {
                 setTimeout(function () {
                     dataNumber()
@@ -466,11 +486,14 @@
             $("#set_time").val(setTime)
             if (setTime > 0 && setTimeFlg == 1) {
                 setTimeout(function () {
+                    console.log("进入倒计时"+setTime)
                     countDown()
                 }, 1000)
+
             } else if (setTime > 0 && setTimeFlg == 0) {
                 return
             } else {
+                console.log("进入保存")
                 endTime = new Date()
                 //保存数据
                 //筛选数据
@@ -840,15 +863,14 @@
 
         //接收到消息的回调方法
         websocket.onmessage = function (event) {
-            if (event.data == 400 || event.data == 300) {
-
+            if (event.data == 300) {
 
             } else {
                 document.getElementById("ser_connect").style.display = "";//显示
                 document.getElementById("ser_break").style.display = "none";//显示
                 //数据解析
                 var data = event.data
-                console.log(data)
+               // console.log(data)
                 //加速度
                 var acc_data = {}
                 var gyr_data = {}
@@ -971,27 +993,46 @@
                 if (JSON.stringify(acc_data) != '{}'){
                     acc_list.push(acc_data)
                 }
+                if(acc_list.length > 100 && number_flg == 1){
+                    acc_list = []
+                }
                 //陀螺仪数据添加
                 if (JSON.stringify(gyr_data) != '{}'){
                     gyr_list.push(gyr_data)
+                }
+                if(gyr_list.length > 100 && number_flg == 1){
+                    gyr_list = []
                 }
                 //磁力计数据添加
                 if (JSON.stringify(mag_data) != '{}'){
                     mag_list.push(mag_data)
                 }
+                if(mag_list.length > 100 && number_flg == 1){
+                    mag_list = []
+                }
                 //光学传感器数据添加
                 if (JSON.stringify(opt_data) != '{}'){
-                    console.log(opt_data)
+                  //  console.log(opt_data)
                     opt_list.push(opt_data)
+                }
+                if(opt_list.length > 100 && number_flg == 1){
+                    opt_list = []
                 }
                 //afe1数据添加
                 if (JSON.stringify(afe1_data) != '{}'){
                     afe1_list.push(afe1_data)
                 }
+                if(afe1_list.length > 100 && number_flg == 1){
+                    afe1_list = []
+                }
                 //afe2数据添加
                 if (JSON.stringify(afe2_data) != '{}'){
                     afe2_list.push(afe2_data)
                 }
+                if(afe2_list.length > 100 && number_flg == 1){
+                    afe2_list = []
+                }
+
 
 
                 //图表
@@ -1013,6 +1054,7 @@
 
                     text = '加速度'
                     lenged = ['x轴', 'y轴', 'z轴']
+
                     for (var i = 0; i < acc_list.length; i++) {
                         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
                         acc_time.push(acc_list[i].date)
@@ -1020,6 +1062,13 @@
                         acc_y.push(acc_list[i].accDatay)
                         acc_z.push(acc_list[i].accDataz)
                     }
+
+                    // if(acc_x.length >= 100){
+                    //     acc_x = acc_x.slice(-100)
+                    //     acc_time = acc_time.slice(-100)
+                    //     acc_y = acc_y.slice(-100)
+                    //     acc_z = acc_z.slice(-100)
+                    // }
                     xAxis = acc_time
                     series = [
                         {
@@ -1057,6 +1106,13 @@
                         gyr_y.push(gyr_list[i].gyrDatay)
                         gyr_z.push(gyr_list[i].gyrDataz)
                     }
+
+                    // if(gyr_x.length >= 100){
+                    //     gyr_x.slice(-100)
+                    //     gyr_time.slice(-100)
+                    //     gyr_y.slice(-100)
+                    //     gyr_z.slice(-100)
+                    // }
                     xAxis = gyr_time
                     series = [
                         {
@@ -1092,6 +1148,13 @@
                         mag_y.push(mag_list[i].magDatay)
                         mag_z.push(mag_list[i].magDataz)
                     }
+
+                    // if(mag_x.length >= 100){
+                    //     mag_x.slice(-100)
+                    //     mag_time.slice(-100)
+                    //     mag_y.slice(-100)
+                    //     mag_z.slice(-100)
+                    // }
                     xAxis = mag_time
                     series = [
                         {
@@ -1129,6 +1192,14 @@
                         lan.push(opt_list[i].lan)
 
                     }
+
+                    // if(hw.length >= 100){
+                    //     opt_time.slice(-100)
+                    //     hw.slice(-100)
+                    //     h.slice(-100)
+                    //     lv.slice(-100)
+                    //     lan.slice(-100)
+                    // }
                     xAxis = opt_time
                     series = [
                         {
@@ -1179,6 +1250,17 @@
                         afe1_eight.push(afe1_list[i].AFE1_eight)
 
                     }
+                    // if (afe1_time.length >= 100){
+                    //     afe1_time.slice(-100)
+                    //     afe1_one.slice(-100)
+                    //     afe1_two.slice(-100)
+                    //     afe1_three.slice(-100)
+                    //     afe1_four.slice(-100)
+                    //     afe1_five.slice(-100)
+                    //     afe1_six.slice(-100)
+                    //     afe1_seven.slice(-100)
+                    //     afe1_eight.slice(-100)
+                    // }
                     xAxis = afe1_time
                     series = [
                         {
@@ -1250,6 +1332,17 @@
                         afe2_eight.push(afe2_list[i].AFE2_eight)
 
                     }
+                    // if (afe2_time.length >= 100){
+                    //     afe2_time.slice(-100)
+                    //     afe2_one.slice(-100)
+                    //     afe2_two.slice(-100)
+                    //     afe2_three.slice(-100)
+                    //     afe2_four.slice(-100)
+                    //     afe2_five.slice(-100)
+                    //     afe2_six.slice(-100)
+                    //     afe2_seven.slice(-100)
+                    //     afe2_eight.slice(-100)
+                    // }
                     xAxis = afe2_time
                     series = [
                         {
@@ -1298,10 +1391,10 @@
 
 
 
-                console.log("标题:"+text)
-                console.log("元素"+lenged)
-                console.log(xAxis)
-                console.log("纵坐标:"+series)
+               // console.log("标题:"+text)
+              //  console.log("元素"+lenged)
+              //  console.log(xAxis)
+               // console.log("纵坐标:"+series)
                 //渲染图表
                 //加速度图表
                 // 1 单独一个
@@ -1330,6 +1423,7 @@
                         }
                     },
                     xAxis: {
+                        show:false,
                         type: 'category',
                         boundaryGap: false,
                         data: xAxis,
@@ -1344,8 +1438,12 @@
                     series: series
                 };
 
-                $('#data_sel').click(function () {
+
+                $('#qh_btn').click(function (){
+
                     myChart.clear()
+                    selData = $('#data_sel').val()
+
                 })
                 // 使用刚指定的配置项和数据显示图表。
                 myChart.setOption(option);
@@ -1414,7 +1512,7 @@
                 contentType: "application/x-www-form-urlencoded;charset=UTF-8",
                 url:"getCom",
                 success:function (res){
-                    console.log(res)
+                 //   console.log(res)
                     $("#cklst").empty();//首先清空select现在有的内容
                     $("#cklst").append("<option selected='selected'  value=0>请选择串口</option>");
                     for (var i = 0;i<res.length;i++){

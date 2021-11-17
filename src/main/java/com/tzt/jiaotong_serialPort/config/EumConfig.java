@@ -2,5 +2,5 @@ package com.tzt.jiaotong_serialPort.config;
 
 public class EumConfig {
 
-    public static String com = "COM3";
+    public static String com = "COM";
 }
