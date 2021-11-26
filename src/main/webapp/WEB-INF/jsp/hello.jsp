@@ -112,12 +112,244 @@
                 <div>
                     <button class="layui-btn layui-btn-danger" id="clear_btn">数据清除</button>
                 </div>
-                <!--图表-->
-                <div>
-                    <!--加速度-->
-                    <div id="acc_ec" style="width: 900px;height:500px;margin-left:-100px;margin-top: 20px "></div>
+                <!--加速度实时数据-->
+                <h3 style="color: #0b97c4">加速度</h3>
+                <div id="acc_d" style="display: flex;">
+                    <div >
+                      <span >x轴:
+                            <input  id="acc_d_x">
+                          </span>
+                    </div>
+                    <div >
+                        <span >y轴:
+                            <input  id="acc_d_y">
+
+                        </span>
+                    </div>
+                    <div >
+                        <span >z轴:
+                            <input  id="acc_d_z">
+
+                        </span>
+                    </div>
+                    <div >
+                         <span >时间:
+                            <input  id="acc_d_time">
+
+                        </span>
+                    </div>
+
 
                 </div>
+                <!--陀螺仪实时数据-->
+                <h3 style="color: #0b97c4">陀螺仪</h3>
+                <div id="gyr_d" style="display: flex;">
+                    <div >
+                      <span >x轴:
+                            <input  id="gry_d_x">
+                          </span>
+                    </div>
+                    <div >
+                        <span >y轴:
+                            <input  id="gry_d_y">
+
+                        </span>
+                    </div>
+                    <div >
+                        <span >z轴:
+                            <input  id="gry_d_z">
+
+                        </span>
+                    </div>
+                    <div >
+                         <span >时间:
+                            <input  id="gry_d_time">
+
+                        </span>
+                    </div>
+                </div>
+                <!--磁力计实时数据-->
+                <h3 style="color: #0b97c4">磁力计</h3>
+                <div id="mag_d" style="display: flex;">
+                    <div >
+                      <span >x轴:
+                            <input  id="mag_d_x">
+                          </span>
+                    </div>
+                    <div >
+                        <span >y轴:
+                            <input  id="mag_d_y">
+
+                        </span>
+                    </div>
+                    <div >
+                        <span >z轴:
+                            <input  id="mag_d_z">
+
+                        </span>
+                    </div>
+                    <div >
+                         <span >时间:
+                            <input  id="mag_d_time">
+
+                        </span>
+                    </div>
+                </div>
+                <!--光学传感器实时数据-->
+                <h3 style="color: #0b97c4">光学传感器</h3>
+                <div id="opt_d" style="display: flex;flex-wrap: wrap;">
+                    <div style="width: 33%;margin-bottom: 10px">
+                      <span >红光:
+                            <input  id="opt_d_red">
+                          </span>
+                    </div>
+                    <div style="width: 33%;margin-bottom: 10px">
+                        <span >红外:
+                            <input  id="opt_d_hw">
+
+                        </span>
+                    </div>
+                    <div style="width: 33%;margin-bottom: 10px">
+                        <span >绿光:
+                            <input  id="opt_d_lv">
+
+                        </span>
+                    </div>
+                    <div style="width: 33%;margin-bottom: 10px">
+                        <span >蓝光:
+                            <input  id="opt_d_lan">
+
+                        </span>
+                    </div>
+                    <div style="width: 33%;margin-bottom: 10px">
+                         <span >时间:
+                            <input  id="opt_d_time">
+
+                        </span>
+                    </div>
+                </div>
+                <!--afe1实时数据-->
+                <h3 style="color: #0b97c4">AFE1传感器</h3>
+                <div id="afe1_d" style="display: flex;flex-wrap: wrap;">
+
+                    <div style="width: 25%;margin-bottom: 10px">
+                      <span >通道一:
+                            <input  id="afe1_d_one">
+                          </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道二:
+                            <input  id="afe1_d_two">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道三:
+                            <input  id="afe1_d_three">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道四:
+                            <input  id="afe1_d_four">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道五:
+                            <input  id="afe1_d_five">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道六:
+                            <input  id="afe1_d_six">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道七:
+                            <input  id="afe1_d_seven">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道八:
+                            <input  id="afe1_d_eight">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                         <span >时间:
+                            <input  id="afe1_d_time">
+
+                        </span>
+                    </div>
+
+                </div>
+                <!--afe2实时数据-->
+                <h3 style="color: #0b97c4">AFE2传感器</h3>
+                <div id="afe2_d" style="display: flex;flex-wrap: wrap;">
+                    <div style="width: 25%;margin-bottom: 10px">
+                      <span >通道一:
+                            <input  id="afe2_d_one">
+                          </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道二:
+                            <input  id="afe2_d_two">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道三:
+                            <input  id="afe2_d_three">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道四:
+                            <input  id="afe2_d_four">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道五:
+                            <input  id="afe2_d_five">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道六:
+                            <input  id="afe2_d_six">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道七:
+                            <input  id="afe2_d_seven">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                        <span >通道八:
+                            <input  id="afe2_d_eight">
+
+                        </span>
+                    </div>
+                    <div style="width: 25%;margin-bottom: 10px">
+                         <span >时间:
+                            <input  id="afe2_d_time">
+
+                        </span>
+                    </div>
+                </div>
+                <!--图表-->
+<%--                <div>--%>
+<%--                    <!--加速度-->--%>
+<%--                    <div id="acc_ec" style="width: 900px;height:500px;margin-left:-100px;margin-top: 20px "></div>--%>
+
+<%--                </div>--%>
 
 
             </div>
@@ -991,6 +1223,15 @@
 
                 //加速度数
                 if (JSON.stringify(acc_data) != '{}'){
+                    // "accDatax": accDatax,
+                    //     "accDatay": accDatay,
+                    //     "accDataz": accDataz,
+                    //     "date": getCurrentTime(),
+                    //     "save_date": new Date()
+                    $("#acc_d_x").val(acc_data.accDatax)
+                    $("#acc_d_y").val(acc_data.accDatay)
+                    $("#acc_d_z").val(acc_data.accDataz)
+                    $("#acc_d_time").val(acc_data.date)
                     acc_list.push(acc_data)
                 }
                 if(acc_list.length > 100 && number_flg == 1){
@@ -998,6 +1239,10 @@
                 }
                 //陀螺仪数据添加
                 if (JSON.stringify(gyr_data) != '{}'){
+                    $("#gry_d_x").val(gyr_data.gyrDatax)
+                    $("#gry_d_y").val(gyr_data.gyrDatay)
+                    $("#gry_d_z").val(gyr_data.gyrDataz)
+                    $("#gry_d_time").val(gyr_data.date)
                     gyr_list.push(gyr_data)
                 }
                 if(gyr_list.length > 100 && number_flg == 1){
@@ -1005,6 +1250,10 @@
                 }
                 //磁力计数据添加
                 if (JSON.stringify(mag_data) != '{}'){
+                    $("#mag_d_x").val(mag_data.magDatax)
+                    $("#mag_d_y").val(mag_data.magDatay)
+                    $("#mag_d_z").val(mag_data.magDataz)
+                    $("#mag_d_time").val(mag_data.date)
                     mag_list.push(mag_data)
                 }
                 if(mag_list.length > 100 && number_flg == 1){
@@ -1013,6 +1262,11 @@
                 //光学传感器数据添加
                 if (JSON.stringify(opt_data) != '{}'){
                   //  console.log(opt_data)
+                    $("#opt_d_red").val(opt_data.h)
+                    $("#opt_d_hw").val(opt_data.hw)
+                    $("#opt_d_lv").val(opt_data.lv)
+                    $("#opt_d_lan").val(opt_data.lan)
+                    $("#opt_d_time").val(opt_data.date)
                     opt_list.push(opt_data)
                 }
                 if(opt_list.length > 100 && number_flg == 1){
@@ -1020,6 +1274,15 @@
                 }
                 //afe1数据添加
                 if (JSON.stringify(afe1_data) != '{}'){
+                    $("#afe1_d_one").val(afe1_data.AFE1_one)
+                    $("#afe1_d_two").val(afe1_data.AFE1_two)
+                    $("#afe1_d_three").val(afe1_data.AFE1_three)
+                    $("#afe1_d_four").val(afe1_data.AFE1_four)
+                    $("#afe1_d_five").val(afe1_data.AFE1_five)
+                    $("#afe1_d_six").val(afe1_data.AFE1_six)
+                    $("#afe1_d_seven").val(afe1_data.AFE1_seven)
+                    $("#afe1_d_eight").val(afe1_data.AFE1_eight)
+                    $("#afe1_d_time").val(afe1_data.date)
                     afe1_list.push(afe1_data)
                 }
                 if(afe1_list.length > 100 && number_flg == 1){
@@ -1027,6 +1290,15 @@
                 }
                 //afe2数据添加
                 if (JSON.stringify(afe2_data) != '{}'){
+                    $("#afe2_d_one").val(afe2_data.AFE2_one)
+                    $("#afe2_d_two").val(afe2_data.AFE2_two)
+                    $("#afe2_d_three").val(afe2_data.AFE2_three)
+                    $("#afe2_d_four").val(afe2_data.AFE2_four)
+                    $("#afe2_d_five").val(afe2_data.AFE2_five)
+                    $("#afe2_d_six").val(afe2_data.AFE2_six)
+                    $("#afe2_d_seven").val(afe2_data.AFE2_seven)
+                    $("#afe2_d_eight").val(afe2_data.AFE2_eight)
+                    $("#afe2_d_time").val(afe2_data.date)
                     afe2_list.push(afe2_data)
                 }
                 if(afe2_list.length > 100 && number_flg == 1){
@@ -1037,356 +1309,356 @@
 
                 //图表
                 //标题
-                var text;
-                //元素
-                var lenged;
-                //横坐标数据
-                var xAxis;
-                //纵坐标数据
-                var series = [];
-
-                //加速度
-                if (selData == '01') {
-                    var acc_x = []
-                    var acc_y = []
-                    var acc_z = []
-                    var acc_time = []
-
-                    text = '加速度'
-                    lenged = ['x轴', 'y轴', 'z轴']
-
-                    for (var i = 0; i < acc_list.length; i++) {
-                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
-                        acc_time.push(acc_list[i].date)
-                        acc_x.push(acc_list[i].accDatax)
-                        acc_y.push(acc_list[i].accDatay)
-                        acc_z.push(acc_list[i].accDataz)
-                    }
-
-                    // if(acc_x.length >= 100){
-                    //     acc_x = acc_x.slice(-100)
-                    //     acc_time = acc_time.slice(-100)
-                    //     acc_y = acc_y.slice(-100)
-                    //     acc_z = acc_z.slice(-100)
-                    // }
-                    xAxis = acc_time
-                    series = [
-                        {
-                            name: 'x轴',
-                            type: 'line',
-                            stack: '总量',
-                            data: acc_x
-                        },
-                        {
-                            name: 'y轴',
-                            type: 'line',
-                            stack: '总量',
-                            data: acc_y
-                        },
-                        {
-                            name: 'z轴',
-                            type: 'line',
-                            stack: '总量',
-                            data: acc_z
-                        }
-                    ]
-
-                } else if (selData == '02') {
-                    var gyr_x = []
-                    var gyr_y = []
-                    var gyr_z = []
-                    var gyr_time = []
-
-                    text = '陀螺仪'
-                    lenged = ['x轴', 'y轴', 'z轴']
-                    for (var i = 0; i < gyr_list.length; i++) {
-                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
-                        gyr_time.push(gyr_list[i].date)
-                        gyr_x.push(gyr_list[i].gyrDatax)
-                        gyr_y.push(gyr_list[i].gyrDatay)
-                        gyr_z.push(gyr_list[i].gyrDataz)
-                    }
-
-                    // if(gyr_x.length >= 100){
-                    //     gyr_x.slice(-100)
-                    //     gyr_time.slice(-100)
-                    //     gyr_y.slice(-100)
-                    //     gyr_z.slice(-100)
-                    // }
-                    xAxis = gyr_time
-                    series = [
-                        {
-                            name: 'x轴',
-                            type: 'line',
-                            data: gyr_x
-                        },
-                        {
-                            name: 'y轴',
-                            type: 'line',
-                            data: gyr_y
-                        },
-                        {
-                            name: 'z轴',
-                            type: 'line',
-                            data: gyr_z
-                        }
-                    ]
-                    //磁力计
-                } else if (selData == '03') {
-
-                    var mag_x = []
-                    var mag_y = []
-                    var mag_z = []
-                    var mag_time = []
-
-                    text = '磁力计'
-                    lenged = ['x轴', 'y轴', 'z轴']
-                    for (var i = 0; i < mag_list.length; i++) {
-                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
-                        mag_time.push(mag_list[i].date)
-                        mag_x.push(mag_list[i].magDatax)
-                        mag_y.push(mag_list[i].magDatay)
-                        mag_z.push(mag_list[i].magDataz)
-                    }
-
-                    // if(mag_x.length >= 100){
-                    //     mag_x.slice(-100)
-                    //     mag_time.slice(-100)
-                    //     mag_y.slice(-100)
-                    //     mag_z.slice(-100)
-                    // }
-                    xAxis = mag_time
-                    series = [
-                        {
-                            name: 'x轴',
-                            type: 'line',
-                            data: mag_x
-                        },
-                        {
-                            name: 'y轴',
-                            type: 'line',
-                            data: mag_y
-                        },
-                        {
-                            name: 'z轴',
-                            type: 'line',
-                            data: mag_z
-                        }
-                    ]
-                    //光学传感器
-                } else if (selData == '04') {
-                    var hw = []
-                    var h = []
-                    var lv = []
-                    var lan =[]
-                    var opt_time = []
-
-                    text = '光学传感器'
-                    lenged = ['红外', '红光','绿光','蓝光']
-                    for (var i = 0; i < opt_list.length; i++) {
-                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
-                        opt_time.push(opt_list[i].date)
-                        hw.push(opt_list[i].hw)
-                        h.push(opt_list[i].h)
-                        lv.push(opt_list[i].lv)
-                        lan.push(opt_list[i].lan)
-
-                    }
-
-                    // if(hw.length >= 100){
-                    //     opt_time.slice(-100)
-                    //     hw.slice(-100)
-                    //     h.slice(-100)
-                    //     lv.slice(-100)
-                    //     lan.slice(-100)
-                    // }
-                    xAxis = opt_time
-                    series = [
-                        {
-                            name: '红外',
-                            type: 'line',
-                            data: hw
-                        },
-                        {
-                            name: '红光',
-                            type: 'line',
-                            data: h
-                        },
-                        {
-                            name: '绿光',
-                            type: 'line',
-                            data: lv
-                        },
-                        {
-                            name: '蓝光',
-                            type: 'line',
-                            data: lan
-                        }
-                    ]
-
-                } else if (selData == '05') {
-                    var afe1_one = []
-                    var afe1_two = []
-                    var afe1_three = []
-                    var afe1_four = []
-                    var afe1_five = []
-                    var afe1_six = []
-                    var afe1_seven = []
-                    var afe1_eight = []
-                    var afe1_time = []
-
-                    text = '生物电势AFE1'
-                    lenged = ['一通道', '二通道', '三通道', '四通道', '五通道', '六通道', '七通道', '八通道']
-                    for (var i = 0; i < afe1_list.length; i++) {
-                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
-                        afe1_time.push(afe1_list[i].date)
-                        afe1_one.push(afe1_list[i].AFE1_one)
-                        afe1_two.push(afe1_list[i].AFE1_two)
-                        afe1_three.push(afe1_list[i].AFE1_three)
-                        afe1_four.push(afe1_list[i].AFE1_four)
-                        afe1_five.push(afe1_list[i].AFE1_five)
-                        afe1_six.push(afe1_list[i].AFE1_six)
-                        afe1_seven.push(afe1_list[i].AFE1_seven)
-                        afe1_eight.push(afe1_list[i].AFE1_eight)
-
-                    }
-                    // if (afe1_time.length >= 100){
-                    //     afe1_time.slice(-100)
-                    //     afe1_one.slice(-100)
-                    //     afe1_two.slice(-100)
-                    //     afe1_three.slice(-100)
-                    //     afe1_four.slice(-100)
-                    //     afe1_five.slice(-100)
-                    //     afe1_six.slice(-100)
-                    //     afe1_seven.slice(-100)
-                    //     afe1_eight.slice(-100)
-                    // }
-                    xAxis = afe1_time
-                    series = [
-                        {
-                            name: '一通道',
-                            type: 'line',
-                            data: afe1_one
-                        },
-                        {
-                            name: '二通道',
-                            type: 'line',
-                            data: afe1_two
-                        },
-                        {
-                            name: '三通道',
-                            type: 'line',
-                            data: afe1_three
-                        },
-                        {
-                            name: '四通道',
-                            type: 'line',
-                            data: afe1_four
-                        },
-                        {
-                            name: '五通道',
-                            type: 'line',
-                            data: afe1_five
-                        },
-                        {
-                            name: '六通道',
-                            type: 'line',
-                            data: afe1_six
-                        },
-                        {
-                            name: '七通道',
-                            type: 'line',
-                            data: afe1_seven
-                        },
-                        {
-                            name: '八通道',
-                            type: 'line',
-                            data: afe1_eight
-                        },
-                    ]
-
-
-                } else if (selData == '06') {
-                    var afe2_one = []
-                    var afe2_two = []
-                    var afe2_three = []
-                    var afe2_four = []
-                    var afe2_five = []
-                    var afe2_six = []
-                    var afe2_seven = []
-                    var afe2_eight = []
-                    var afe2_time = []
-
-                    text = '生物电势AFE2'
-                    lenged = ['一通道', '二通道', '三通道', '四通道', '五通道', '六通道', '七通道', '八通道']
-                    for (var i = 0; i < afe2_list.length; i++) {
-                        // alert(acc_list[i].date+' '+acc_list[i].accDatax)
-                        afe2_time.push(afe2_list[i].date)
-                        afe2_one.push(afe2_list[i].AFE2_one)
-                        afe2_two.push(afe2_list[i].AFE2_two)
-                        afe2_three.push(afe2_list[i].AFE2_three)
-                        afe2_four.push(afe2_list[i].AFE2_four)
-                        afe2_five.push(afe2_list[i].AFE2_five)
-                        afe2_six.push(afe2_list[i].AFE2_six)
-                        afe2_seven.push(afe2_list[i].AFE2_seven)
-                        afe2_eight.push(afe2_list[i].AFE2_eight)
-
-                    }
-                    // if (afe2_time.length >= 100){
-                    //     afe2_time.slice(-100)
-                    //     afe2_one.slice(-100)
-                    //     afe2_two.slice(-100)
-                    //     afe2_three.slice(-100)
-                    //     afe2_four.slice(-100)
-                    //     afe2_five.slice(-100)
-                    //     afe2_six.slice(-100)
-                    //     afe2_seven.slice(-100)
-                    //     afe2_eight.slice(-100)
-                    // }
-                    xAxis = afe2_time
-                    series = [
-                        {
-                            name: '一通道',
-                            type: 'line',
-                            data: afe2_one
-                        },
-                        {
-                            name: '二通道',
-                            type: 'line',
-                            data: afe2_two
-                        },
-                        {
-                            name: '三通道',
-                            type: 'line',
-                            data: afe2_three
-                        },
-                        {
-                            name: '四通道',
-                            type: 'line',
-                            data: afe2_four
-                        },
-                        {
-                            name: '五通道',
-                            type: 'line',
-                            data: afe2_five
-                        },
-                        {
-                            name: '六通道',
-                            type: 'line',
-                            data: afe2_six
-                        },
-                        {
-                            name: '七通道',
-                            type: 'line',
-                            data: afe2_seven
-                        },
-                        {
-                            name: '八通道',
-                            type: 'line',
-                            data: afe2_eight
-                        },
-                    ]
-                }
+                // var text;
+                // //元素
+                // var lenged;
+                // //横坐标数据
+                // var xAxis;
+                // //纵坐标数据
+                // var series = [];
+                //
+                // //加速度
+                // if (selData == '01') {
+                //     var acc_x = []
+                //     var acc_y = []
+                //     var acc_z = []
+                //     var acc_time = []
+                //
+                //     text = '加速度'
+                //     lenged = ['x轴', 'y轴', 'z轴']
+                //
+                //     for (var i = 0; i < acc_list.length; i++) {
+                //         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                //         acc_time.push(acc_list[i].date)
+                //         acc_x.push(acc_list[i].accDatax)
+                //         acc_y.push(acc_list[i].accDatay)
+                //         acc_z.push(acc_list[i].accDataz)
+                //     }
+                //
+                //     // if(acc_x.length >= 100){
+                //     //     acc_x = acc_x.slice(-100)
+                //     //     acc_time = acc_time.slice(-100)
+                //     //     acc_y = acc_y.slice(-100)
+                //     //     acc_z = acc_z.slice(-100)
+                //     // }
+                //     xAxis = acc_time
+                //     series = [
+                //         {
+                //             name: 'x轴',
+                //             type: 'line',
+                //             stack: '总量',
+                //             data: acc_x
+                //         },
+                //         {
+                //             name: 'y轴',
+                //             type: 'line',
+                //             stack: '总量',
+                //             data: acc_y
+                //         },
+                //         {
+                //             name: 'z轴',
+                //             type: 'line',
+                //             stack: '总量',
+                //             data: acc_z
+                //         }
+                //     ]
+                //
+                // } else if (selData == '02') {
+                //     var gyr_x = []
+                //     var gyr_y = []
+                //     var gyr_z = []
+                //     var gyr_time = []
+                //
+                //     text = '陀螺仪'
+                //     lenged = ['x轴', 'y轴', 'z轴']
+                //     for (var i = 0; i < gyr_list.length; i++) {
+                //         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                //         gyr_time.push(gyr_list[i].date)
+                //         gyr_x.push(gyr_list[i].gyrDatax)
+                //         gyr_y.push(gyr_list[i].gyrDatay)
+                //         gyr_z.push(gyr_list[i].gyrDataz)
+                //     }
+                //
+                //     // if(gyr_x.length >= 100){
+                //     //     gyr_x.slice(-100)
+                //     //     gyr_time.slice(-100)
+                //     //     gyr_y.slice(-100)
+                //     //     gyr_z.slice(-100)
+                //     // }
+                //     xAxis = gyr_time
+                //     series = [
+                //         {
+                //             name: 'x轴',
+                //             type: 'line',
+                //             data: gyr_x
+                //         },
+                //         {
+                //             name: 'y轴',
+                //             type: 'line',
+                //             data: gyr_y
+                //         },
+                //         {
+                //             name: 'z轴',
+                //             type: 'line',
+                //             data: gyr_z
+                //         }
+                //     ]
+                //     //磁力计
+                // } else if (selData == '03') {
+                //
+                //     var mag_x = []
+                //     var mag_y = []
+                //     var mag_z = []
+                //     var mag_time = []
+                //
+                //     text = '磁力计'
+                //     lenged = ['x轴', 'y轴', 'z轴']
+                //     for (var i = 0; i < mag_list.length; i++) {
+                //         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                //         mag_time.push(mag_list[i].date)
+                //         mag_x.push(mag_list[i].magDatax)
+                //         mag_y.push(mag_list[i].magDatay)
+                //         mag_z.push(mag_list[i].magDataz)
+                //     }
+                //
+                //     // if(mag_x.length >= 100){
+                //     //     mag_x.slice(-100)
+                //     //     mag_time.slice(-100)
+                //     //     mag_y.slice(-100)
+                //     //     mag_z.slice(-100)
+                //     // }
+                //     xAxis = mag_time
+                //     series = [
+                //         {
+                //             name: 'x轴',
+                //             type: 'line',
+                //             data: mag_x
+                //         },
+                //         {
+                //             name: 'y轴',
+                //             type: 'line',
+                //             data: mag_y
+                //         },
+                //         {
+                //             name: 'z轴',
+                //             type: 'line',
+                //             data: mag_z
+                //         }
+                //     ]
+                //     //光学传感器
+                // } else if (selData == '04') {
+                //     var hw = []
+                //     var h = []
+                //     var lv = []
+                //     var lan =[]
+                //     var opt_time = []
+                //
+                //     text = '光学传感器'
+                //     lenged = ['红外', '红光','绿光','蓝光']
+                //     for (var i = 0; i < opt_list.length; i++) {
+                //         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                //         opt_time.push(opt_list[i].date)
+                //         hw.push(opt_list[i].hw)
+                //         h.push(opt_list[i].h)
+                //         lv.push(opt_list[i].lv)
+                //         lan.push(opt_list[i].lan)
+                //
+                //     }
+                //
+                //     // if(hw.length >= 100){
+                //     //     opt_time.slice(-100)
+                //     //     hw.slice(-100)
+                //     //     h.slice(-100)
+                //     //     lv.slice(-100)
+                //     //     lan.slice(-100)
+                //     // }
+                //     xAxis = opt_time
+                //     series = [
+                //         {
+                //             name: '红外',
+                //             type: 'line',
+                //             data: hw
+                //         },
+                //         {
+                //             name: '红光',
+                //             type: 'line',
+                //             data: h
+                //         },
+                //         {
+                //             name: '绿光',
+                //             type: 'line',
+                //             data: lv
+                //         },
+                //         {
+                //             name: '蓝光',
+                //             type: 'line',
+                //             data: lan
+                //         }
+                //     ]
+                //
+                // } else if (selData == '05') {
+                //     var afe1_one = []
+                //     var afe1_two = []
+                //     var afe1_three = []
+                //     var afe1_four = []
+                //     var afe1_five = []
+                //     var afe1_six = []
+                //     var afe1_seven = []
+                //     var afe1_eight = []
+                //     var afe1_time = []
+                //
+                //     text = '生物电势AFE1'
+                //     lenged = ['一通道', '二通道', '三通道', '四通道', '五通道', '六通道', '七通道', '八通道']
+                //     for (var i = 0; i < afe1_list.length; i++) {
+                //         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                //         afe1_time.push(afe1_list[i].date)
+                //         afe1_one.push(afe1_list[i].AFE1_one)
+                //         afe1_two.push(afe1_list[i].AFE1_two)
+                //         afe1_three.push(afe1_list[i].AFE1_three)
+                //         afe1_four.push(afe1_list[i].AFE1_four)
+                //         afe1_five.push(afe1_list[i].AFE1_five)
+                //         afe1_six.push(afe1_list[i].AFE1_six)
+                //         afe1_seven.push(afe1_list[i].AFE1_seven)
+                //         afe1_eight.push(afe1_list[i].AFE1_eight)
+                //
+                //     }
+                //     // if (afe1_time.length >= 100){
+                //     //     afe1_time.slice(-100)
+                //     //     afe1_one.slice(-100)
+                //     //     afe1_two.slice(-100)
+                //     //     afe1_three.slice(-100)
+                //     //     afe1_four.slice(-100)
+                //     //     afe1_five.slice(-100)
+                //     //     afe1_six.slice(-100)
+                //     //     afe1_seven.slice(-100)
+                //     //     afe1_eight.slice(-100)
+                //     // }
+                //     xAxis = afe1_time
+                //     series = [
+                //         {
+                //             name: '一通道',
+                //             type: 'line',
+                //             data: afe1_one
+                //         },
+                //         {
+                //             name: '二通道',
+                //             type: 'line',
+                //             data: afe1_two
+                //         },
+                //         {
+                //             name: '三通道',
+                //             type: 'line',
+                //             data: afe1_three
+                //         },
+                //         {
+                //             name: '四通道',
+                //             type: 'line',
+                //             data: afe1_four
+                //         },
+                //         {
+                //             name: '五通道',
+                //             type: 'line',
+                //             data: afe1_five
+                //         },
+                //         {
+                //             name: '六通道',
+                //             type: 'line',
+                //             data: afe1_six
+                //         },
+                //         {
+                //             name: '七通道',
+                //             type: 'line',
+                //             data: afe1_seven
+                //         },
+                //         {
+                //             name: '八通道',
+                //             type: 'line',
+                //             data: afe1_eight
+                //         },
+                //     ]
+                //
+                //
+                // } else if (selData == '06') {
+                //     var afe2_one = []
+                //     var afe2_two = []
+                //     var afe2_three = []
+                //     var afe2_four = []
+                //     var afe2_five = []
+                //     var afe2_six = []
+                //     var afe2_seven = []
+                //     var afe2_eight = []
+                //     var afe2_time = []
+                //
+                //     text = '生物电势AFE2'
+                //     lenged = ['一通道', '二通道', '三通道', '四通道', '五通道', '六通道', '七通道', '八通道']
+                //     for (var i = 0; i < afe2_list.length; i++) {
+                //         // alert(acc_list[i].date+' '+acc_list[i].accDatax)
+                //         afe2_time.push(afe2_list[i].date)
+                //         afe2_one.push(afe2_list[i].AFE2_one)
+                //         afe2_two.push(afe2_list[i].AFE2_two)
+                //         afe2_three.push(afe2_list[i].AFE2_three)
+                //         afe2_four.push(afe2_list[i].AFE2_four)
+                //         afe2_five.push(afe2_list[i].AFE2_five)
+                //         afe2_six.push(afe2_list[i].AFE2_six)
+                //         afe2_seven.push(afe2_list[i].AFE2_seven)
+                //         afe2_eight.push(afe2_list[i].AFE2_eight)
+                //
+                //     }
+                //     // if (afe2_time.length >= 100){
+                //     //     afe2_time.slice(-100)
+                //     //     afe2_one.slice(-100)
+                //     //     afe2_two.slice(-100)
+                //     //     afe2_three.slice(-100)
+                //     //     afe2_four.slice(-100)
+                //     //     afe2_five.slice(-100)
+                //     //     afe2_six.slice(-100)
+                //     //     afe2_seven.slice(-100)
+                //     //     afe2_eight.slice(-100)
+                //     // }
+                //     xAxis = afe2_time
+                //     series = [
+                //         {
+                //             name: '一通道',
+                //             type: 'line',
+                //             data: afe2_one
+                //         },
+                //         {
+                //             name: '二通道',
+                //             type: 'line',
+                //             data: afe2_two
+                //         },
+                //         {
+                //             name: '三通道',
+                //             type: 'line',
+                //             data: afe2_three
+                //         },
+                //         {
+                //             name: '四通道',
+                //             type: 'line',
+                //             data: afe2_four
+                //         },
+                //         {
+                //             name: '五通道',
+                //             type: 'line',
+                //             data: afe2_five
+                //         },
+                //         {
+                //             name: '六通道',
+                //             type: 'line',
+                //             data: afe2_six
+                //         },
+                //         {
+                //             name: '七通道',
+                //             type: 'line',
+                //             data: afe2_seven
+                //         },
+                //         {
+                //             name: '八通道',
+                //             type: 'line',
+                //             data: afe2_eight
+                //         },
+                //     ]
+                // }
 
 
 
@@ -1398,45 +1670,45 @@
                 //渲染图表
                 //加速度图表
                 // 1 单独一个
-                var myChart = echarts.init(document.getElementById('acc_ec'));
-                var option;
+                // var myChart = echarts.init(document.getElementById('acc_ec'));
+                // var option;
 
-                option = {
-                    title: {
-                        text: text
-                    },
-                    tooltip: {
-                        trigger: 'axis'
-                    },
-                    legend: {
-                        data: lenged
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    toolbox: {
-                        feature: {
-                            saveAsImage: {}
-                        }
-                    },
-                    xAxis: {
-                        show:false,
-                        type: 'category',
-                        boundaryGap: false,
-                        data: xAxis,
-                        axisLabel: {
-                            rotate: -30
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        minInterval: 1
-                    },
-                    series: series
-                };
+                // option = {
+                //     title: {
+                //         text: text
+                //     },
+                //     tooltip: {
+                //         trigger: 'axis'
+                //     },
+                //     legend: {
+                //         data: lenged
+                //     },
+                //     grid: {
+                //         left: '3%',
+                //         right: '4%',
+                //         bottom: '3%',
+                //         containLabel: true
+                //     },
+                //     toolbox: {
+                //         feature: {
+                //             saveAsImage: {}
+                //         }
+                //     },
+                //     xAxis: {
+                //         show:false,
+                //         type: 'category',
+                //         boundaryGap: false,
+                //         data: xAxis,
+                //         axisLabel: {
+                //             rotate: -30
+                //         }
+                //     },
+                //     yAxis: {
+                //         type: 'value',
+                //         minInterval: 1
+                //     },
+                //     series: series
+                // };
 
 
                 $('#qh_btn').click(function (){
